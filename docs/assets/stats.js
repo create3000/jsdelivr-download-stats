@@ -17,7 +17,7 @@ class Stats
    {
       const url = new URL (location);
 
-      this .canvas = $(`<x3d-canvas splashScreen="false"></x3d-canvas>`);
+      this .canvas = $(`<x3d-canvas splashScreen="false" contextMenu="false" timings="false" update="auto" xrSessionMode="NONE"></x3d-canvas>`);
 
       this .username   = url .searchParams .get ("username");
       this .repository = url .searchParams .get ("repository");
