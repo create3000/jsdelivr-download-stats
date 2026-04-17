@@ -26,13 +26,21 @@ class Stats
 
       this .canvas  = $(`<x3d-canvas splashScreen="false"></x3d-canvas>`);
       this .browser = this .canvas .get (0) .browser;
-      this .scene   = this .browser .currentScene;
 
       this .browser .setBrowserOption ("AutoUpdate",    true);
       this .browser .setBrowserOption ("ContentScale",  -1);
       this .browser .setBrowserOption ("ContextMenu",   false);
+      this .browser .setBrowserOption ("Notifications", false);
       this .browser .setBrowserOption ("Timings",       false);
       this .browser .setBrowserOption ("XRSessionMode", "NONE");
+
+      const
+         profile    = this .browser .getProfile ("Interchange"),
+         components = [this .browser .getComponent ("Geometry2D")];
+
+      this .scene = await this .browser .createScene (profile, ... components);
+
+      await this .browser .replaceWorld (this .scene);
 
       $("#stats") .append (this .canvas);
 
@@ -49,10 +57,35 @@ class Stats
       background .set_bind     = true;
       background .transparency = 1;
 
+      viewpoint .set_bind    = true;
       viewpoint .position    = new X3D .SFVec3f (0.5, 0.2, 10);
       viewpoint .fieldOfView = new X3D .SFVec4f (-0.5, -0.2, 0.5, 0.2);
 
       this .scene .rootNodes .push (navigationInfo, background, viewpoint);
+
+      // Rectangle
+
+      const
+         transform  = this .scene .createNode ("Transform"),
+         shape      = this .scene .createNode ("Shape"),
+         appearance = this .scene .createNode ("Appearance"),
+         material   = this .scene .createNode ("UnlitMaterial"),
+         geometry   = this .scene .createNode ("Rectangle2D");
+
+      material .emissiveColor = new X3D .SFColor (0.9, 0.9, 0.9);
+      geometry .solid         = true;
+      geometry .size          = new X3D .SFVec2f (1, 1);
+
+      appearance .material = material;
+      shape .appearance    = appearance;
+      shape .geometry      = geometry;
+
+      transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
+      transform .scale        = new X3D .SFVec3f (1, 0.4, 1);
+
+      transform .children .push (shape);
+
+      this .scene .rootNodes .push (transform);
 
       // Stats
 
