@@ -15,7 +15,7 @@ header {
 }
 
 main {
-  padding: 2vw 8vw;
+  padding: 1em 4em;
 }
 
 footer {
@@ -25,7 +25,15 @@ footer {
 }
 
 h1 {
-  border-bottom: 1px solid #ccc;
+  font-size: inherit;
+  font-weight: normal;
+}
+
+h1 a {
+  text-decoration: none;
+  background: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg") no-repeat left center;
+  background-size: 20px;
+  padding-left: 30px;
 }
 
 x3d-canvas {
