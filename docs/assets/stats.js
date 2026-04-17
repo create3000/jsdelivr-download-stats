@@ -14,18 +14,21 @@ class Stats
       this .username   = url .searchParams .get ("username");
       this .repository = url .searchParams .get ("repository");
 
-      console .log (this .username, this .repository)
+      this .stats (this);
    }
 
-   async download (username, repository, period = "quarter")
+   async stats ({ username, repository, period = "quarter" })
    {
-      const gh  = await stats (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
-      const npm = await stats (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
+      console .log ("Generate stats for:", username, repository, period);
+
+      const gh = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
 
       for (const [date, hits] of Object .entries (gh .hits .dates))
       {
          console .log (date, hits);
       }
+
+      const npm = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
 
       for (const [date, hits] of Object .entries (npm .hits .dates))
       {
@@ -33,7 +36,7 @@ class Stats
       }
    }
 
-   async stats (url)
+   async download (url)
    {
       const response = await fetch (url, {
          method: 'GET',
