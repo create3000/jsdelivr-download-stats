@@ -15,16 +15,38 @@ class Stats
 
    async setup ()
    {
-      const url = new URL (location);
+      // Query
 
-      this .canvas = $(`<x3d-canvas splashScreen="false" contextMenu="false" timings="false" update="auto" xrSessionMode="NONE"></x3d-canvas>`);
+      const url = new URL (location);
 
       this .username   = url .searchParams .get ("username");
       this .repository = url .searchParams .get ("repository");
 
-      this .stats (this);
+      // Canvas
+
+      this .canvas  = $(`<x3d-canvas splashScreen="false" contextMenu="false" timings="false" update="auto" xrSessionMode="NONE"></x3d-canvas>`);
+      this .browser = this .canvas .get (0) .browser;
+      this .scene   = this .browser .currentScene;
 
       $("#stats") .append (this .canvas);
+
+      // Environment
+
+      const
+         navigationInfo = this .scene .createNode ("NavigationInfo"),
+         background     = this .scene .createNode ("Background");
+
+      navigationInfo .set_bind = true;
+      navigationInfo .type     = ["NONE"];
+
+      background .set_bind     = true;
+      background .transparency = 1;
+
+      this .scene .rootNodes .push (navigationInfo, background);
+
+      // Stats
+
+      // this .stats (this);
    }
 
    async stats ({ username, repository, period = "quarter" })
