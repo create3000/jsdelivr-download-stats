@@ -24,6 +24,15 @@ footer {
   border-top: 1px solid #ccc;
 }
 
+a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+a:hover {
+  border-bottom: 1px solid;
+}
+
 h1 {
   font-size: inherit;
   font-weight: normal;
