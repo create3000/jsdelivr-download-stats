@@ -1,6 +1,35 @@
 @charset "utf-8";
 
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: sans-serif;
+}
+
+header {
+  height: 4em;
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+}
+
+main {
+  margin: 0px;
+  padding: 2em 8em;
+}
+
+footer {
+  height: 4em;
+  background-color: #eee;
+  border-top: 1px solid #ccc;
+}
+
+h1 {
+  border-bottom: 1px solid #ccc;
+}
+
 x3d-canvas {
-  width: 768px;
-  height: 432px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 5;
 }
