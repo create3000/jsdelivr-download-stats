@@ -58,8 +58,8 @@ class Stats
       background .transparency = 1;
 
       viewpoint .set_bind    = true;
-      viewpoint .position    = new X3D .SFVec3f (0.5, 0.2, 10);
-      viewpoint .fieldOfView = new X3D .SFVec4f (-0.5, -0.2, 0.5, 0.2);
+      viewpoint .position    = new X3D .SFVec3f (0, 0, 10);
+      viewpoint .fieldOfView = new X3D .SFVec4f (0, 0, 1, 0.4);
 
       this .scene .rootNodes .push (navigationInfo, background, viewpoint);
 
@@ -72,7 +72,7 @@ class Stats
          material   = this .scene .createNode ("UnlitMaterial"),
          geometry   = this .scene .createNode ("Rectangle2D");
 
-      material .emissiveColor = new X3D .SFColor (0.9, 0.9, 0.9);
+      material .emissiveColor = new X3D .SFColor (255 / 255, 86 / 255, 39 / 255); // rgb(255, 86, 39)
       geometry .solid         = true;
       geometry .size          = new X3D .SFVec2f (1, 1);
 
