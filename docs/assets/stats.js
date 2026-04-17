@@ -24,9 +24,15 @@ class Stats
 
       // Canvas
 
-      this .canvas  = $(`<x3d-canvas splashScreen="false" contextMenu="false" timings="false" update="auto" xrSessionMode="NONE"></x3d-canvas>`);
+      this .canvas  = $(`<x3d-canvas splashScreen="false"></x3d-canvas>`);
       this .browser = this .canvas .get (0) .browser;
       this .scene   = this .browser .currentScene;
+
+      this .browser .setBrowserOption ("AutoUpdate",    true);
+      this .browser .setBrowserOption ("ContentScale",  -1);
+      this .browser .setBrowserOption ("ContextMenu",   false);
+      this .browser .setBrowserOption ("Timings",       false);
+      this .browser .setBrowserOption ("XRSessionMode", "NONE");
 
       $("#stats") .append (this .canvas);
 
@@ -34,7 +40,8 @@ class Stats
 
       const
          navigationInfo = this .scene .createNode ("NavigationInfo"),
-         background     = this .scene .createNode ("Background");
+         background     = this .scene .createNode ("Background"),
+         viewpoint      = this .scene .createNode ("OrthoViewpoint");
 
       navigationInfo .set_bind = true;
       navigationInfo .type     = ["NONE"];
@@ -42,7 +49,10 @@ class Stats
       background .set_bind     = true;
       background .transparency = 1;
 
-      this .scene .rootNodes .push (navigationInfo, background);
+      viewpoint .position    = new X3D .SFVec3f (0.5, 0.2, 10);
+      viewpoint .fieldOfView = new X3D .SFVec4f (-0.5, -0.2, 0.5, 0.2);
+
+      this .scene .rootNodes .push (navigationInfo, background, viewpoint);
 
       // Stats
 
