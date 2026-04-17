@@ -39,10 +39,11 @@ h1 {
 }
 
 h1 a {
-  text-decoration: none;
+  margin-right: 10px;
+  padding-left: 20px;
   background: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg") no-repeat left center;
   background-size: 20px;
-  padding-left: 30px;
+  text-decoration: none;
 }
 
 #stats {
