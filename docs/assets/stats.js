@@ -77,7 +77,7 @@ class Stats
 
       // Group
 
-      this .group = this .scene .createNode ("Group");
+      this .group = this .scene .createNode ("Transform");
 
       this .scene .rootNodes .push (this .group);
 
@@ -102,8 +102,7 @@ class Stats
          shape .appearance    = appearance;
          shape .geometry      = geometry;
 
-         transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
-         transform .scale        = new X3D .SFVec3f (WIDTH, HEIGHT, 1);
+         transform .translation = new X3D .SFVec3f (0.5, 0.5, 0);
 
          transform .children .push (shape);
 
@@ -124,8 +123,7 @@ class Stats
          shape .appearance    = appearance;
          shape .geometry      = geometry;
 
-         transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
-         transform .scale        = new X3D .SFVec3f (WIDTH, HEIGHT, 1);
+         transform .translation = new X3D .SFVec3f (0.5, 0.5, 0);
 
          transform .children .push (shape);
 
@@ -166,14 +164,20 @@ class Stats
 
       // Determine max.
 
-      const max = ["github", "npm"] .reduce ((p, host) =>
+      const max = entries .reduce ((p, [_, hosts]) =>
       {
-         if (!$(`#show-${host}`) .is (":checked"))
-            return p;
+         return Math .max (p, Object .keys (hosts) .reduce ((p, host) =>
+         {
+            if (!$(`#show-${host}`) .is (":checked"))
+               return p;
 
-         return p + entries .reduce ((p, [_, hosts]) => Math .max (p, hosts [host]), 0);
+            return p + hosts [host];
+         },
+         0));
       },
       0);
+
+      this .group .scale .y = 1 / max * HEIGHT;
 
       // Clear group.
 
@@ -187,6 +191,8 @@ class Stats
 
          const touchSensor = this .scene .createNode ("TouchSensor");
 
+         touchSensor .description = i;
+
          for (const [host, hits] of Object .entries (server))
          {
             if (!$(`#show-${host}`) .is (":checked"))
@@ -194,8 +200,8 @@ class Stats
 
             const transform = this .scene .createNode ("Transform");
 
-            transform .translation = new X3D .SFVec3f (i * (width + gap), y / max * HEIGHT, 0);
-            transform .scale       = new X3D .SFVec3f (width, hits / max, 1);
+            transform .translation = new X3D .SFVec3f (i * (width + gap), y, 0);
+            transform .scale       = new X3D .SFVec3f (width, hits, 1);
 
             transform .children .push (touchSensor, this [host]);
 
