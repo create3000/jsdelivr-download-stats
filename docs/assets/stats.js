@@ -185,14 +185,14 @@ class Stats
       {
          let y = 0;
 
+         const touchSensor = this .scene .createNode ("TouchSensor");
+
          for (const [host, hits] of Object .entries (server))
          {
             if (!$(`#show-${host}`) .is (":checked"))
                continue;
 
-            const
-               touchSensor = this .scene .createNode ("TouchSensor"),
-               transform   = this .scene .createNode ("Transform");
+            const transform = this .scene .createNode ("Transform");
 
             transform .translation = new X3D .SFVec3f (i * (width + gap), y / max * HEIGHT, 0);
             transform .scale       = new X3D .SFVec3f (width, hits / max, 1);
