@@ -44,8 +44,11 @@ class Stats
       this .browser .setBrowserOption ("XRSessionMode", "NONE");
 
       const
-         profile    = this .browser .getProfile ("Interchange"),
-         components = [this .browser .getComponent ("Geometry2D")];
+         profile = this .browser .getProfile ("Interchange"),
+         components = [
+            this .browser .getComponent ("Geometry2D"),
+            this .browser .getComponent ("PointingDeviceSensor"),
+         ];
 
       this .scene = await this .browser .createScene (profile, ... components);
 
@@ -181,12 +184,14 @@ class Stats
             if (!$(`#show-${host}`) .is (":checked"))
                continue;
 
-            const transform = this .scene .createNode ("Transform");
+            const
+               touchSensor = this .scene .createNode ("TouchSensor"),
+               transform   = this .scene .createNode ("Transform");
 
             transform .translation = new X3D .SFVec3f (i * (width + gap), y / max * HEIGHT, 0);
             transform .scale       = new X3D .SFVec3f (width, hits / max, 1);
 
-            transform .children .push (this [host]);
+            transform .children .push (touchSensor, this [host]);
 
             this .group .children .push (transform);
 
