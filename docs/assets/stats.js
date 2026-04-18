@@ -104,7 +104,7 @@ class Stats
 
          transform .children .push (shape);
 
-         this .gh = transform;
+         this .github = transform;
       }
 
       // npm
@@ -144,9 +144,9 @@ class Stats
 
       // Download and combine entries.
 
-      const gh      = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
+      const github  = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
       const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
-      const entries = Object .entries (gh .hits .dates) .map (([date, hits]) => [date, { gh: hits, npm: npm .hits .dates [date] }]);
+      const entries = Object .entries (github .hits .dates) .map (([date, hits]) => [date, { github: hits, npm: npm .hits .dates [date] }]);
 
       // Determine layout values.
 
@@ -159,7 +159,7 @@ class Stats
 
       let max = 0;
 
-      for (const host of ["gh", "npm"])
+      for (const host of ["github", "npm"])
       {
          if (!$(`#show-${host}`) .is (":checked"))
             continue;
