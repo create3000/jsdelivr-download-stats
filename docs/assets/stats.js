@@ -1,6 +1,10 @@
 import X3D from "https://cdn.jsdelivr.net/npm/x_ite@14.1.3/dist/x_ite.min.mjs";
 import { $ } from "https://code.jquery.com/jquery-4.0.0.module.min.js";
 
+const
+   WIDTH  = 1,
+   HEIGHT = 0.4;
+
 class Stats
 {
    static run ()
@@ -64,7 +68,7 @@ class Stats
 
       viewpoint .set_bind    = true;
       viewpoint .position    = new X3D .SFVec3f (0, 0, 10);
-      viewpoint .fieldOfView = new X3D .SFVec4f (0, 0, 1, 0.4);
+      viewpoint .fieldOfView = new X3D .SFVec4f (0, 0, WIDTH, HEIGHT);
 
       this .scene .rootNodes .push (navigationInfo, background, viewpoint);
 
@@ -78,8 +82,8 @@ class Stats
 
       const geometry = this .scene .createNode ("Rectangle2D");
 
-      geometry .solid         = true;
-      geometry .size          = new X3D .SFVec2f (1, 1);
+      geometry .solid = true;
+      geometry .size  = new X3D .SFVec2f (1, 1);
 
       // GitHub
       {
@@ -96,7 +100,7 @@ class Stats
          shape .geometry      = geometry;
 
          transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
-         transform .scale        = new X3D .SFVec3f (1, 0.4, 1);
+         transform .scale        = new X3D .SFVec3f (WIDTH, HEIGHT, 1);
 
          transform .children .push (shape);
 
@@ -118,7 +122,7 @@ class Stats
          shape .geometry      = geometry;
 
          transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
-         transform .scale        = new X3D .SFVec3f (1, 0.4, 1);
+         transform .scale        = new X3D .SFVec3f (WIDTH, HEIGHT, 1);
 
          transform .children .push (shape);
 
@@ -146,7 +150,7 @@ class Stats
       const
          gap    = 0.002,
          length = entries .length,
-         width  = (1 - gap * (length - 1)) / length,
+         width  = (WIDTH - gap * (length - 1)) / length,
          max    = entries .reduce ((p, [_, { gh, npm }]) => Math .max (p, gh + npm), 0);
 
       for (const [i, [date, server]] of entries .entries ())
@@ -157,7 +161,7 @@ class Stats
          {
             const transform = this .scene .createNode ("Transform");
 
-            transform .translation = new X3D .SFVec3f (i * (width + gap), y / max * 0.4, 0);
+            transform .translation = new X3D .SFVec3f (i * (width + gap), y / max * HEIGHT, 0);
             transform .scale       = new X3D .SFVec3f (width, hits / max, 1);
 
             transform .children .push (this [host]);
