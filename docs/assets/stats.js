@@ -71,9 +71,30 @@ class Stats
 
       viewpoint .set_bind    = true;
       viewpoint .position    = new X3D .SFVec3f (0, 0, 10);
-      viewpoint .fieldOfView = new X3D .SFVec4f (0, 0, WIDTH, HEIGHT);
+      viewpoint .fieldOfView = new X3D .SFVec4f (-0.2, 0, WIDTH, HEIGHT);
 
       this .scene .rootNodes .push (navigationInfo, background, viewpoint);
+
+      // y-Axis
+      {
+         const
+            shape      = this .scene .createNode ("Shape"),
+            appearance = this .scene .createNode ("Appearance"),
+            material   = this .scene .createNode ("UnlitMaterial"),
+            geometry   = this .scene .createNode ("LineSet"),
+            coord      = this .scene .createNode ("Coordinate");
+
+         coord    .point         = new X3D .MFVec3f (new X3D .SFVec3f (-0.01, 0, 0), new X3D .SFVec3f (-0.01, HEIGHT, 0));
+         geometry .vertexCount   = [2];
+         material .emissiveColor = new X3D .SFColor (0.7, 0.7, 0.7);
+
+         geometry .coord      = coord;
+         appearance .material = material;
+         shape .appearance    = appearance;
+         shape .geometry      = geometry;
+
+         this .scene .rootNodes .push (shape);
+      }
 
       // Group
 
