@@ -142,17 +142,36 @@ class Stats
 
       const period = "quarter";
 
+      // Download and combine entries.
+
       const gh      = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
       const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
       const entries = Object .entries (gh .hits .dates) .map (([date, hits]) => [date, { gh: hits, npm: npm .hits .dates [date] }]);
 
+      // Determine layout values.
+
       const
          gap    = 0.002,
          length = entries .length,
-         width  = (WIDTH - gap * (length - 1)) / length,
-         max    = entries .reduce ((p, [_, { gh, npm }]) => Math .max (p, gh + npm), 0);
+         width  = (WIDTH - gap * (length - 1)) / length;
+
+      // Determine max.
+
+      let max = 0;
+
+      for (const host of ["gh", "npm"])
+      {
+         if (!$(`#show-${host}`) .is (":checked"))
+            continue;
+
+         max += entries .reduce ((p, [_, hosts]) => Math .max (p, hosts [host]), 0);
+      }
+
+      // Clear group.
 
       this .group .children .length = 0;
+
+      // Add columns.
 
       for (const [i, [date, server]] of entries .entries ())
       {
