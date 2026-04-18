@@ -136,27 +136,33 @@ class Stats
 
       $("#hosts input") .on ("change", () => this .stats ());
 
+      await this .downloadEntries ();
+
+      // Download and combine entries.
+
       this .stats ();
    }
 
-   async stats ()
+   async downloadEntries (period = "quarter")
    {
       const { username, repository } = this;
-
-      const period = "quarter";
-
-      // Download and combine entries.
 
       const github  = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
       const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
       const entries = Object .entries (github .hits .dates) .map (([date, hits]) => [date, { github: hits, npm: npm .hits .dates [date] }]);
 
+      this .entries = entries;
+   }
+
+   async stats ()
+   {
       // Determine layout values.
 
       const
-         gap    = 0.002,
-         length = entries .length,
-         width  = (WIDTH - gap * (length - 1)) / length;
+         entries = this .entries,
+         gap     = 0.002,
+         length  = entries .length,
+         width   = (WIDTH - gap * (length - 1)) / length;
 
       // Determine max.
 
