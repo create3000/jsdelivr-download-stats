@@ -68,51 +68,104 @@ class Stats
 
       this .scene .rootNodes .push (navigationInfo, background, viewpoint);
 
-      // Rectangle
+      // Group
 
-      const
-         transform  = this .scene .createNode ("Transform"),
-         shape      = this .scene .createNode ("Shape"),
-         appearance = this .scene .createNode ("Appearance"),
-         material   = this .scene .createNode ("UnlitMaterial"),
-         geometry   = this .scene .createNode ("Rectangle2D");
+      this .group = this .scene .createNode ("Group");
 
-      material .emissiveColor = new X3D .SFColor (255 / 255, 86 / 255, 39 / 255); // rgb(255, 86, 39)
+      this .scene .rootNodes .push (this .group);
+
+      // Rectangles for GitHub and npm
+
+      const geometry = this .scene .createNode ("Rectangle2D");
+
       geometry .solid         = true;
       geometry .size          = new X3D .SFVec2f (1, 1);
 
-      appearance .material = material;
-      shape .appearance    = appearance;
-      shape .geometry      = geometry;
+      // GitHub
+      {
+         const
+            transform  = this .scene .createNode ("Transform"),
+            shape      = this .scene .createNode ("Shape"),
+            appearance = this .scene .createNode ("Appearance"),
+            material   = this .scene .createNode ("UnlitMaterial");
 
-      transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
-      transform .scale        = new X3D .SFVec3f (1, 0.4, 1);
+         material .emissiveColor = new X3D .SFColor (47 / 255, 129 / 255, 247 / 255); // rgb(47, 129, 247)
 
-      transform .children .push (shape);
+         appearance .material = material;
+         shape .appearance    = appearance;
+         shape .geometry      = geometry;
 
-      this .scene .rootNodes .push (transform);
+         transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
+         transform .scale        = new X3D .SFVec3f (1, 0.4, 1);
+
+         transform .children .push (shape);
+
+         this .gh = transform;
+      }
+
+      // npm
+      {
+         const
+            transform  = this .scene .createNode ("Transform"),
+            shape      = this .scene .createNode ("Shape"),
+            appearance = this .scene .createNode ("Appearance"),
+            material   = this .scene .createNode ("UnlitMaterial");
+
+         material .emissiveColor = new X3D .SFColor (203 / 255, 56 / 255, 55 / 255); // rgb(203, 56, 55)
+
+         appearance .material = material;
+         shape .appearance    = appearance;
+         shape .geometry      = geometry;
+
+         transform .translation  = new X3D .SFVec3f (0.5, 0.2, 0);
+         transform .scale        = new X3D .SFVec3f (1, 0.4, 1);
+
+         transform .children .push (shape);
+
+         this .npm = transform;
+      }
 
       // Stats
 
-      // this .stats (this);
+      this .stats (this);
    }
 
    async stats ({ username, repository, period = "quarter" })
    {
       console .log ("Generate stats for:", username, repository, period);
 
-      const gh = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
+      const gh      = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
+      const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
+      const entries = Object .entries (gh .hits .dates) .map (([date, hits]) => [date, { gh: hits, npm: npm .hits .dates [date] }]);
 
-      for (const [date, hits] of Object .entries (gh .hits .dates))
+      this .columns (entries);
+   }
+
+   columns (entries)
+   {
+      const
+         gap    = 0.002,
+         length = entries .length,
+         width  = (1 - gap * (length - 1)) / length,
+         max    = entries .reduce ((p, [_, { gh, npm }]) => Math .max (p, gh + npm), 0);
+
+      for (const [i, [date, server]] of entries .entries ())
       {
-         console .log (date, hits);
-      }
+         let y = 0;
 
-      const npm = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
+         for (const [host, hits] of Object .entries (server))
+         {
+            const transform = this .scene .createNode ("Transform");
 
-      for (const [date, hits] of Object .entries (npm .hits .dates))
-      {
-         console .log (date, hits);
+            transform .translation = new X3D .SFVec3f (i * (width + gap), y / max * 0.4, 0);
+            transform .scale       = new X3D .SFVec3f (width, hits / max, 1);
+
+            transform .children .push (this [host]);
+
+            this .group .children .push (transform);
+
+            y += hits;
+         }
       }
    }
 
