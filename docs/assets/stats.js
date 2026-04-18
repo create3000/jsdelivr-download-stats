@@ -157,15 +157,14 @@ class Stats
 
       // Determine max.
 
-      let max = 0;
-
-      for (const host of ["github", "npm"])
+      const max = ["github", "npm"] .reduce ((p, host) =>
       {
          if (!$(`#show-${host}`) .is (":checked"))
-            continue;
+            return p;
 
-         max += entries .reduce ((p, [_, hosts]) => Math .max (p, hosts [host]), 0);
-      }
+         return p + entries .reduce ((p, [_, hosts]) => Math .max (p, hosts [host]), 0);
+      },
+      0);
 
       // Clear group.
 
