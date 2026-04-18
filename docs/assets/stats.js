@@ -47,7 +47,9 @@ class Stats
          profile = this .browser .getProfile ("Interchange"),
          components = [
             this .browser .getComponent ("Geometry2D"),
+            this .browser .getComponent ("Layout"),
             this .browser .getComponent ("PointingDeviceSensor"),
+            this .browser .getComponent ("Text"),
          ];
 
       this .scene = await this .browser .createScene (profile, ... components);
@@ -71,7 +73,7 @@ class Stats
 
       viewpoint .set_bind    = true;
       viewpoint .position    = new X3D .SFVec3f (0, 0, 10);
-      viewpoint .fieldOfView = new X3D .SFVec4f (-0.2, 0, WIDTH, HEIGHT);
+      viewpoint .fieldOfView = new X3D .SFVec4f (-0.1, 0, WIDTH, HEIGHT);
 
       this .scene .rootNodes .push (navigationInfo, background, viewpoint);
 
@@ -94,6 +96,23 @@ class Stats
          shape .geometry      = geometry;
 
          this .scene .rootNodes .push (shape);
+      }
+
+      // Axis Text
+      {
+         const
+            appearance = this .scene .createNode ("Appearance"),
+            material   = this .scene .createNode ("UnlitMaterial"),
+            fontStyle  = this .scene .createNode ("ScreenFontStyle");
+
+         fontStyle .pointSize    = 9;
+         fontStyle .justify      = ["END"];
+         fontStyle .family       = ["SANS"];
+         material .emissiveColor = new X3D .SFColor (0.3, 0.3, 0.3);
+         appearance .material    = material;
+
+         this .textAppearance = appearance;
+         this .textFontStyle  = fontStyle;
       }
 
       // Group
@@ -175,6 +194,10 @@ class Stats
 
    async stats ()
    {
+      // Clear group.
+
+      this .group .children .length = 0;
+
       // Determine layout values.
 
       const
@@ -200,9 +223,29 @@ class Stats
 
       this .group .scale .y = 1 / max * HEIGHT;
 
-      // Clear group.
+      const NUM_LABELS = 8;
 
-      this .group .children .length = 0;
+      for (let i = 0; i < NUM_LABELS; ++ i)
+      {
+         const
+            transform = this .scene .createNode ("Transform"),
+            shape     = this .scene .createNode ("Shape"),
+            text      = this .scene .createNode ("Text"),
+            y         = max * i / (NUM_LABELS - 1);
+
+         text .string    = [Math .floor (y) .toLocaleString ("en")];
+         text .fontStyle = this .textFontStyle;
+
+         shape .appearance = this .textAppearance;
+         shape .geometry   = text;
+
+         transform .translation .x = -0.02;
+         transform .translation .y = y;
+
+         transform .children .push (shape);
+
+         this .group .children .push (transform);
+      }
 
       // Add columns.
 
