@@ -131,27 +131,28 @@ class Stats
 
       // Stats
 
-      this .stats (this);
+      $("#hosts input") .on ("change", () => this .stats ());
+
+      this .stats ();
    }
 
-   async stats ({ username, repository, period = "quarter" })
+   async stats ()
    {
-      console .log ("Generate stats for:", username, repository, period);
+      const { username, repository } = this;
+
+      const period = "quarter";
 
       const gh      = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
       const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
       const entries = Object .entries (gh .hits .dates) .map (([date, hits]) => [date, { gh: hits, npm: npm .hits .dates [date] }]);
 
-      this .columns (entries);
-   }
-
-   columns (entries)
-   {
       const
          gap    = 0.002,
          length = entries .length,
          width  = (WIDTH - gap * (length - 1)) / length,
          max    = entries .reduce ((p, [_, { gh, npm }]) => Math .max (p, gh + npm), 0);
+
+      this .group .children .length = 0;
 
       for (const [i, [date, server]] of entries .entries ())
       {
@@ -159,6 +160,9 @@ class Stats
 
          for (const [host, hits] of Object .entries (server))
          {
+            if (!$(`#show-${host}`) .is (":checked"))
+               continue;
+
             const transform = this .scene .createNode ("Transform");
 
             transform .translation = new X3D .SFVec3f (i * (width + gap), y / max * HEIGHT, 0);
