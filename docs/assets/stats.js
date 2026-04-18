@@ -22,6 +22,11 @@ class Stats
       this .username   = url .searchParams .get ("username");
       this .repository = url .searchParams .get ("repository");
 
+      if (!this .username || !this .repository)
+         return;
+
+      $("title") .text (`${this .username}/${this .repository} - ${$("title") .text ()}`);
+
       // Canvas
 
       this .canvas  = $(`<x3d-canvas splashScreen="false"></x3d-canvas>`);
