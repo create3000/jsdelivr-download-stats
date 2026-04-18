@@ -75,6 +75,8 @@ class Stats
       viewpoint .position    = new X3D .SFVec3f (0, 0, 10);
       viewpoint .fieldOfView = new X3D .SFVec4f (-0.1, 0, WIDTH, HEIGHT);
 
+      this .viewpoint = viewpoint;
+
       this .scene .rootNodes .push (navigationInfo, background, viewpoint);
 
       // y-Axis
@@ -234,6 +236,7 @@ class Stats
             y         = max * i / (NUM_LABELS - 1);
 
          text .string    = [Math .floor (y) .toLocaleString ("en")];
+         text .solid     = true;
          text .fontStyle = this .textFontStyle;
 
          shape .appearance = this .textAppearance;
@@ -246,6 +249,11 @@ class Stats
 
          this .group .children .push (transform);
       }
+
+      // this .group .children .at (-1) .children [0] .geometry .addFieldCallback (this, "textBounds", textBounds =>
+      // {
+      //    this .viewpoint .fieldOfView [0] = -textBounds .x / 1000;
+      // });
 
       // Add columns.
 
