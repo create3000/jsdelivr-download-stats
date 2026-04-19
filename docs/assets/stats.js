@@ -241,18 +241,16 @@ class Stats
 
       this .group .scale .y = 1 / max * HEIGHT;
 
-      const
-         step      = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 10, 1))) / 2),
-         numLabels = Math .ceil (max / step) + 1;
+      const step = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 10, 1))) / 2);
 
-      for (let i = 0, y = 0; i < numLabels; ++ i, y += step)
+      for (let y = 0; y < max + step; y += step)
       {
          const
             transform = this .scene .createNode ("Transform"),
             shape     = this .scene .createNode ("Shape"),
             text      = this .scene .createNode ("Text");
 
-         text .string    = [y .toLocaleString ("en")];
+         text .string    = [Math .min (y, max) .toLocaleString ("en")];
          text .solid     = true;
          text .fontStyle = this .textFontStyle;
 
@@ -260,7 +258,7 @@ class Stats
          shape .geometry   = text;
 
          transform .translation .x = -0.02;
-         transform .translation .y = y;
+         transform .translation .y = Math .min (y, max);
 
          transform .children .push (shape);
 
