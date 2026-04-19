@@ -190,6 +190,8 @@ class Stats
 
    async stats ()
    {
+      $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
+
       await this .downloadEntries ($("#period") .val ());
 
       // Download and combine entries.
@@ -310,5 +312,14 @@ class Stats
       return await response .json ();
    }
 }
+
+Object .defineProperty (String .prototype, "toUpperCaseFirst",
+{
+   value ()
+   {
+      return this .charAt (0) .toUpperCase () + this .slice (1);
+   },
+   enumerable: false
+});
 
 Stats .run ();
