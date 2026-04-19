@@ -1,4 +1,5 @@
-import X3D from "https://cdn.jsdelivr.net/npm/x_ite@14.1.3/dist/x_ite.min.mjs";
+//import X3D from "https://cdn.jsdelivr.net/npm/x_ite@14.1.3/dist/x_ite.min.mjs";
+import X3D from "../../../x_ite/dist/x_ite.min.mjs";
 import { $ } from "https://code.jquery.com/jquery-4.0.0.module.min.js";
 
 const
