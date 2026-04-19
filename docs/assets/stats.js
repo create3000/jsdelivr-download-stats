@@ -226,7 +226,7 @@ class Stats
 
       // Determine max.
 
-      const max = entries .reduce ((p, [_, hosts]) =>
+      const max = entries .reduce ((p, [date, hosts]) =>
       {
          return Math .max (p, Object .keys (hosts) .reduce ((p, host) =>
          {
