@@ -276,7 +276,7 @@ class Stats
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
-         let y = 0;
+         let sumHits = 0;
 
          const touchSensor = this .scene .createNode ("TouchSensor");
 
@@ -289,14 +289,14 @@ class Stats
 
             const transform = this .scene .createNode ("Transform");
 
-            transform .translation = new X3D .SFVec3f (i * (width + gap), y, 0);
+            transform .translation = new X3D .SFVec3f (i * (width + gap), sumHits, 0);
             transform .scale       = new X3D .SFVec3f (width, hits, 1);
 
             transform .children .push (touchSensor, this [host]);
 
             this .group .children .push (transform);
 
-            y += hits;
+            sumHits += hits;
          }
       }
    }
