@@ -242,7 +242,7 @@ class Stats
       this .group .scale .y = 1 / max * HEIGHT;
 
       const
-         step      = Math .ceil (10 ** Math .ceil (Math. log10 (Math .max (max / 10, 1))) / 2),
+         step      = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 10, 1))) / 2),
          numLabels = Math .ceil (max / step) + 1;
 
       for (let i = 0, y = 0; i < numLabels; ++ i, y += step)
