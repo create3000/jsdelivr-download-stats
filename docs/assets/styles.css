@@ -33,12 +33,25 @@ a:hover {
   border-bottom: 1px solid;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
 h1 {
   font-size: inherit;
   font-weight: normal;
 }
 
-h1 a {
+h1 a.logo {
+  margin-right: 10px;
+  padding-left: 20px;
+  background: url("images/icon.svg") no-repeat left center;
+  background-size: 20px;
+  text-decoration: none;
+}
+
+a.github {
   margin-right: 10px;
   padding-left: 20px;
   background: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg") no-repeat left center;
