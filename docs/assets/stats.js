@@ -31,6 +31,7 @@ class Stats
          return;
 
       $("title") .text (`${this .username}/${this .repository} - ${$("title") .text ()}`);
+      $(`#period option[value=${url .searchParams .get ("period")}]`) .prop ("selected", true);
 
       // Canvas
 
@@ -181,13 +182,19 @@ class Stats
 
       // Stats
 
-      $("#hosts input") .on ("change", () => this .stats ());
+      $("#period") .on ("change", () => this .stats ());
+      $("#hosts input") .on ("change", () => this .columnStats ());
 
-      await this .downloadEntries ();
+      this .stats ();
+   }
+
+   async stats ()
+   {
+      await this .downloadEntries ($("#period") .val ());
 
       // Download and combine entries.
 
-      this .stats ();
+      this .columnStats ();
    }
 
    async downloadEntries (period = "quarter")
@@ -201,7 +208,7 @@ class Stats
       this .entries = entries;
    }
 
-   async stats ()
+   async columnStats ()
    {
       // Clear group.
 
