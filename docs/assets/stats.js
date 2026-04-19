@@ -63,7 +63,8 @@ class Stats
       const
          navigationInfo = this .scene .createNode ("NavigationInfo"),
          background     = this .scene .createNode ("Background"),
-         viewpoint      = this .scene .createNode ("OrthoViewpoint");
+         viewpoint      = this .scene .createNode ("OrthoViewpoint"),
+         fontLibrary    = this .scene .createNode ("FontLibrary");
 
       navigationInfo .set_bind = true;
       navigationInfo .type     = ["NONE"];
@@ -77,7 +78,12 @@ class Stats
 
       this .viewpoint = viewpoint;
 
-      this .scene .rootNodes .push (navigationInfo, background, viewpoint);
+      fontLibrary .family = "Roboto";
+      fontLibrary .url    = ["assets/fonts/Roboto/Roboto.ttf"];
+
+      // await fontLibrary .getValue () .requestImmediateLoad ();
+
+      this .scene .rootNodes .push (navigationInfo, background, viewpoint, fontLibrary);
 
       // y-Axis
       {
@@ -107,9 +113,9 @@ class Stats
             material   = this .scene .createNode ("UnlitMaterial"),
             fontStyle  = this .scene .createNode ("ScreenFontStyle");
 
+         fontStyle .family       = ["Roboto", "SANS"];
          fontStyle .pointSize    = 9;
          fontStyle .justify      = ["END"];
-         fontStyle .family       = ["SANS"];
          material .emissiveColor = new X3D .SFColor (0.3, 0.3, 0.3);
          appearance .material    = material;
 
