@@ -241,17 +241,18 @@ class Stats
 
       this .group .scale .y = 1 / max * HEIGHT;
 
-      const NUM_LABELS = 8;
+      const
+         step      = Math .ceil (10 ** Math .ceil (Math. log10 (Math .max (max / 10, 1))) / 2),
+         numLabels = Math .ceil (max / step) + 1;
 
-      for (let i = 0; i < NUM_LABELS; ++ i)
+      for (let i = 0, y = 0; i < numLabels; ++ i, y += step)
       {
          const
             transform = this .scene .createNode ("Transform"),
             shape     = this .scene .createNode ("Shape"),
-            text      = this .scene .createNode ("Text"),
-            y         = max * i / (NUM_LABELS - 1);
+            text      = this .scene .createNode ("Text");
 
-         text .string    = [Math .floor (y) .toLocaleString ("en")];
+         text .string    = [y .toLocaleString ("en")];
          text .solid     = true;
          text .fontStyle = this .textFontStyle;
 
@@ -310,6 +311,11 @@ class Stats
       });
 
       return await response .json ();
+   }
+
+   floor (value, step)
+   {
+      return Math .floor (value / step) * step;
    }
 }
 
