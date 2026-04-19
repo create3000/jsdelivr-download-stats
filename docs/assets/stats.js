@@ -257,7 +257,7 @@ class Stats
 
       // Add columns.
 
-      for (const [i, [date, server]] of entries .entries ())
+      for (const [i, [date, hosts]] of entries .entries ())
       {
          let y = 0;
 
@@ -265,7 +265,7 @@ class Stats
 
          touchSensor .description = i;
 
-         for (const [host, hits] of Object .entries (server))
+         for (const [host, hits] of Object .entries (hosts))
          {
             if (!$(`#show-${host}`) .is (":checked"))
                continue;
