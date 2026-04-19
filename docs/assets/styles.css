@@ -83,6 +83,15 @@ input[type="checkbox"]:before {
   font-size: 15pt;;
 }
 
+select {
+  appearance: none;
+  border: 1px solid #aaa;
+  padding: 4px 10px;
+  font-size: inherit;
+  border-radius: 16px;
+  background: #eee;
+}
+
 input[type="checkbox"]:checked::before {
   content: "check_circle";
 }
@@ -96,4 +105,9 @@ input[type="checkbox"]:checked::before {
 x3d-canvas {
   width: 100%;
   height: 100%;
+}
+
+.heart {
+  position: relative;
+  top: 6px;
 }
