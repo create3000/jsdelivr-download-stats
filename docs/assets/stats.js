@@ -33,6 +33,31 @@ class Stats
       $("title") .text (`${this .username}/${this .repository} - ${$("title") .text ()}`);
       $(`#period option[value=${url .searchParams .get ("period")}]`) .prop ("selected", true);
 
+      Columns .run ();
+   }
+}
+
+class Columns
+{
+   static run ()
+   {
+      this .instance = new Columns ();
+   }
+
+   constructor ()
+   {
+      this .setup ();
+   }
+
+   async setup ()
+   {
+      // Query
+
+      const url = new URL (location);
+
+      this .username   = url .searchParams .get ("username");
+      this .repository = url .searchParams .get ("repository");
+
       // Canvas
 
       this .canvas  = $(`<x3d-canvas splashScreen="false"></x3d-canvas>`);
