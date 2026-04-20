@@ -90,6 +90,7 @@ select {
   font-size: inherit;
   border-radius: 16px;
   background: #eee;
+  outline: none;
 }
 
 input[type="checkbox"]:checked::before {
