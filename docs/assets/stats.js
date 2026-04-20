@@ -220,7 +220,7 @@ class Stats
 
       const
          entries = this .entries,
-         gap     = 0.002,
+         gap     = $("#period") .val () === "year" ? 0 : 0.002,
          length  = entries .length,
          width   = (WIDTH - gap * (length - 1)) / length;
 
