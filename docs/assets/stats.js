@@ -326,12 +326,7 @@ class Columns
 
    async download (url)
    {
-      const response = await fetch (url, {
-         method: 'GET',
-         headers: {
-            "accept": "application/json",
-         },
-      });
+      const response = await fetch (url);
 
       return await response .json ();
    }
