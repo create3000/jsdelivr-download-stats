@@ -44,7 +44,7 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  padding: 1em 2em 1em 1em;
+  padding: 1em 2em;
   background-color: var(--secondary-background-color);
   border-bottom: 1px solid var(--border-color);
 }
@@ -54,7 +54,7 @@ main {
 }
 
 footer {
-  padding: 1em 2em 1em 1em;
+  padding: 1em 2em;
   background-color: var(--secondary-background-color);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
