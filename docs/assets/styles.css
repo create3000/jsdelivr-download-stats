@@ -89,6 +89,7 @@ a.github {
 }
 
 input[type="checkbox"] {
+  cursor: pointer;
   appearance: none;;
   position: relative;
   top: -1px;
@@ -108,7 +109,12 @@ input[type="checkbox"]:checked::before {
   content: "check_circle";
 }
 
+label {
+  cursor: pointer;
+}
+
 select {
+  cursor: pointer;
   appearance: none;
   border: 1px solid #aaa;
   padding: 4px 10px;
