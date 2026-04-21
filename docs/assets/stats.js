@@ -214,7 +214,7 @@ class Columns
       // Stats
 
       $("#period") .on ("change", () => this .build ());
-      $("#hosts input") .on ("change", () => this .columnStats ());
+      $("#hosts input") .on ("change", () => this .buildColumns ());
 
       this .build ();
    }

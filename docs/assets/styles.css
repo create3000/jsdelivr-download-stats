@@ -100,7 +100,12 @@ input[type="checkbox"]:before {
   position: relative;
   top: 5px;
   margin-right: -4px;
-  font-size: 15pt;;
+  font-size: 15pt;
+  color: var(--text-color);
+}
+
+input[type="checkbox"]:checked::before {
+  content: "check_circle";
 }
 
 select {
@@ -112,11 +117,6 @@ select {
   background: var(--secondary-background-color);
   color: inherit;
   outline: none;
-}
-
-input[type="checkbox"]:checked::before {
-  content: "check_circle";
-  color: var(--text-color);
 }
 
 #stats {
