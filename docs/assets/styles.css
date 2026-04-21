@@ -9,6 +9,7 @@
     --text-color: black;
     --border-color: #ccc;
     --link-color: #007acc;
+    --image-filter: none;
   }
 }
 
@@ -16,9 +17,10 @@
   :root {
     --background-color: rgb(27, 27, 30);
     --secondary-background-color: rgb(30, 30, 30);
-    --text-color: rgb(175 176 177);
+    --text-color: rgb(175, 176, 177);
     --border-color: black;
     --link-color: #66aaff;
+    --image-filter: brightness(0) saturate(100%) invert(80%) sepia(0%) saturate(360%) hue-rotate(71deg) brightness(97%) contrast(69%);
   }
 }
 
@@ -86,6 +88,7 @@ a.github {
   background-size: 20px;
   text-decoration: none;
   color: var(--text-color);
+  filter: var(--image-filter);
 }
 
 label[for] {
