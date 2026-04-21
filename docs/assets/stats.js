@@ -51,6 +51,10 @@ class Columns
 
    async setup ()
    {
+      this .colorScheme = window .matchMedia ("(prefers-color-scheme: light)");
+
+      this .colorScheme .addEventListener ("change", event => this .changeColorScheme (event));
+
       // Query
 
       const url = new URL (location);
@@ -143,11 +147,13 @@ class Columns
          fontStyle .family       = ["Roboto", "SANS"];
          fontStyle .pointSize    = 9;
          fontStyle .justify      = ["END"];
-         material .emissiveColor = new X3D .SFColor (0.3, 0.3, 0.3);
+         material .emissiveColor = this .colorScheme .matches
+            ? new X3D .SFColor (0.3, 0.3, 0.3)
+            : new X3D .SFColor (0.7, 0.7, 0.7);
          appearance .material    = material;
 
-         this .textAppearance = appearance;
-         this .textFontStyle  = fontStyle;
+         this .axisTextAppearance = appearance;
+         this .axisTextFontStyle  = fontStyle;
       }
 
       // Group
@@ -207,13 +213,20 @@ class Columns
 
       // Stats
 
-      $("#period") .on ("change", () => this .stats ());
+      $("#period") .on ("change", () => this .build ());
       $("#hosts input") .on ("change", () => this .columnStats ());
 
-      this .stats ();
+      this .build ();
    }
 
-   async stats ()
+   changeColorScheme (colorScheme)
+   {
+      this .axisTextAppearance .material .emissiveColor = this .colorScheme .matches
+         ? new X3D .SFColor (0.3, 0.3, 0.3)
+         : new X3D .SFColor (0.7, 0.7, 0.7);
+   }
+
+   async build ()
    {
       $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
 
@@ -221,7 +234,7 @@ class Columns
 
       // Download and combine entries.
 
-      this .columnStats ();
+      this .buildColumns ();
    }
 
    async downloadEntries (period = "quarter")
@@ -235,7 +248,7 @@ class Columns
       this .entries = entries;
    }
 
-   async columnStats ()
+   async buildColumns ()
    {
       // Clear group.
 
@@ -277,9 +290,9 @@ class Columns
 
          text .string    = [Math .min (y, max) .toLocaleString ("en")];
          text .solid     = true;
-         text .fontStyle = this .textFontStyle;
+         text .fontStyle = this .axisTextFontStyle;
 
-         shape .appearance = this .textAppearance;
+         shape .appearance = this .axisTextAppearance;
          shape .geometry   = text;
 
          transform .translation .x = -0.02;
