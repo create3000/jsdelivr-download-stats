@@ -88,6 +88,10 @@ a.github {
   color: var(--text-color);
 }
 
+label[for] {
+  cursor: pointer;
+}
+
 input[type="checkbox"] {
   cursor: pointer;
   appearance: none;;
@@ -107,10 +111,6 @@ input[type="checkbox"]:before {
 
 input[type="checkbox"]:checked::before {
   content: "check_circle";
-}
-
-label {
-  cursor: pointer;
 }
 
 select {
