@@ -18,7 +18,7 @@
     --background-color: rgb(27, 27, 30);
     --secondary-background-color: rgb(30, 30, 30);
     --text-color: rgb(175, 176, 177);
-    --border-color: black;
+    --border-color: rgb(41, 41, 41);
     --link-color: #66aaff;
     --image-filter: brightness(0) saturate(100%) invert(80%) sepia(0%) saturate(360%) hue-rotate(71deg) brightness(97%) contrast(69%);
   }
