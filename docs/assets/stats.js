@@ -1,6 +1,6 @@
 import X3D from "https://cdn.jsdelivr.net/npm/x_ite@latest/dist/x_ite.min.mjs";
 // import X3D from "../../../x_ite/dist/x_ite.min.mjs";
-import { $ } from "https://code.jquery.com/jquery-4.0.0.module.min.js";
+import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.module.min.js";
 
 const
    WIDTH  = 1,
