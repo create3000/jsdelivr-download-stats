@@ -211,7 +211,7 @@ input[type="checkbox"]:checked::before {
 #stats {
   width: 100%;
   height: auto;
-  aspect-ratio: 10 / 4;
+  aspect-ratio: 10 / 3;
 }
 
 x3d-canvas {
