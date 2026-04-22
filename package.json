@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "jsDelivr Download Stats",
   "scripts": {
-    "merge-development": "sh build/release.sh"
+    "release": "sh build/release.sh"
   },
   "repository": {
     "type": "git",
