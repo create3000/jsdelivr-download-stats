@@ -88,6 +88,11 @@ class Columns
          .val (this .config .period)
          .on ("change", () => this .config .period = $("#period") .val ());
 
+      this .browser .addBrowserCallback ("check", X3D .X3DConstants .CONNECTION_ERROR, () =>
+      {
+         window .location .reload ();
+      });
+
       this .browser .setBrowserOption ("AutoUpdate",    true);
       this .browser .setBrowserOption ("ContentScale",  -1);
       this .browser .setBrowserOption ("ContextMenu",   false);
