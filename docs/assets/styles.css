@@ -4,6 +4,23 @@
 
 @media (prefers-color-scheme: light) {
   :root {
+    /* System Colors */
+
+    --system-red: rgb(255, 56, 60);
+    --system-orange: rgb(255, 141, 40);
+    --system-yellow: rgb(255, 204, 0);
+    --system-green: rgb(52, 199, 89);
+    --system-mint: rgb(0, 200, 179);
+    --system-teal: rgb(0, 195, 208);
+    --system-cyan: rgb(0, 192, 232);
+    --system-blue: rgb(0, 136, 255);
+    --system-indigo: rgb(88, 86, 214);
+    --system-purple: rgb(97, 85, 245);
+    --system-pink: rgb(255, 45, 85);
+    --system-brown: rgb(172, 127, 94);
+
+    /* Colors */
+
     --background-color: white;
     --secondary-background-color: #eee;
     --text-color: black;
@@ -15,6 +32,23 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* System Colors */
+
+    --system-red: rgb(255, 66, 69);
+    --system-orange: rgb(255, 146, 48);
+    --system-yellow: rgb(255, 214, 0);
+    --system-green: rgb(48, 209, 88);
+    --system-mint: rgb(0, 218, 195);
+    --system-teal: rgb(0, 210, 224);
+    --system-cyan: rgb(60, 211, 254);
+    --system-blue: rgb(0, 145, 255);
+    --system-indigo: rgb(107, 93, 255);
+    --system-purple: rgb(219, 52, 242);
+    --system-pink: rgb(255, 55, 95);
+    --system-brown: rgb(183, 138, 102);
+
+    /* Colors */
+
     --background-color: rgb(27, 27, 30);
     --secondary-background-color: rgb(30, 30, 30);
     --text-color: rgb(175, 176, 177);
@@ -126,6 +160,29 @@ select {
   background: var(--secondary-background-color);
   color: inherit;
   outline: none;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#refresh {
+  cursor: pointer;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#refresh.active {
+  color: var(--system-red);
+  animation: rotating 2s linear infinite;
 }
 
 #stats {

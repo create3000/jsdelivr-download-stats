@@ -209,6 +209,7 @@ class Columns
 
       // Stats
 
+      $("#refresh") .on ("click", () => this .build ());
       $("#period") .on ("change", () => this .build ());
       $("#hosts input") .on ("change", () => this .buildColumns ());
 
@@ -224,13 +225,16 @@ class Columns
 
    async build ()
    {
+      $("#refresh") .addClass ("active");
       $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
 
       await this .downloadEntries ($("#period") .val ());
 
       // Download and combine entries.
 
-      this .buildColumns ();
+      await this .buildColumns ();
+
+      $("#refresh") .removeClass ("active");
    }
 
    async downloadEntries (period = "quarter")
