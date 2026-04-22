@@ -33,19 +33,22 @@ class Stats
       $("title") .text (`${this .username}/${this .repository} - ${$("title") .text ()}`);
       $(`#period option[value=${url .searchParams .get ("period")}]`) .prop ("selected", true);
 
-      Columns .run ();
+      Columns .run (this .username, this .repository);
    }
 }
 
 class Columns
 {
-   static run ()
+   static run (username, repository)
    {
-      this .instance = new Columns ();
+      this .instance = new Columns (username, repository);
    }
 
-   constructor ()
+   constructor (username, repository)
    {
+      this .username   = username;
+      this .repository = repository;
+
       this .setup ();
    }
 
@@ -54,13 +57,6 @@ class Columns
       this .colorScheme = window .matchMedia ("(prefers-color-scheme: light)");
 
       this .colorScheme .addEventListener ("change", event => this .changeColorScheme (event));
-
-      // Query
-
-      const url = new URL (location);
-
-      this .username   = url .searchParams .get ("username");
-      this .repository = url .searchParams .get ("repository");
 
       // Canvas
 
