@@ -1,0 +1,39 @@
+{
+  "name": "jsdelivr-download-stats",
+  "productName": "jsDelivr Download Stats",
+  "version": "1.0.0",
+  "description": "jsDelivr Download Stats",
+  "scripts": {
+    "merge-development": "sh build/release.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/create3000/jsdelivr-download-stats.git"
+  },
+  "keywords": [
+    "2D",
+    "jsDelivr",
+    "statistics",
+    "JavaScript",
+    "WebGL",
+    "x_ite",
+    "X3D"
+  ],
+  "author": "Holger Seelig",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/create3000/jsdelivr-download-stats/issues"
+  },
+  "homepage": "https://create3000.github.io/jsdelivr-download-stats/",
+  "contributors": [
+    {
+      "name": "Holger Seelig",
+      "email": "holger.seelig@gmail.com",
+      "url": "https://github.com/create3000"
+    }
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://patreon.com/X_ITE"
+  }
+}
