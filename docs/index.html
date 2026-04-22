@@ -21,7 +21,13 @@
       <h1><a title="jsDelivr Download Stats" href="/jsdelivr-download-stats/" class="logo"></a> jsDelivr Download Stats</h1>
       <a title="jsDelivr Download Stats Repository on GitHub" href="https://github.com/create3000/jsdelivr-download-stats" target="_blank" class="github"></a>
     </header>
-    <main>
+    <main class="inputs">
+      <h2>Enter Project Details ...</h2>
+      <p><input type="text" id="username" placeholder="Enter GitHub user or organization name."></p>
+      <p><input type="text" id="repository" placeholder="Enter GitHub repository name."></p>
+      <p><button class="submit">Show jsDeliver Download Stats!</button></p>
+    </main>
+    <main class="stats">
       <div id="buttons">
         <p>Data range: <select id="period">
             <option value="month">month</option>

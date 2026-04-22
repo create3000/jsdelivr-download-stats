@@ -28,8 +28,25 @@ class Stats
       this .repository = url .searchParams .get ("repository");
 
       if (!this .username || !this .repository)
-         return;
+      {
+         $("main.inputs") .show ();
 
+         $("main.inputs .submit") .on ("click", () =>
+         {
+            const
+               username   = $("#username") .val (),
+               repository = $("#repository") .val ();
+
+            url .searchParams .set ("username",   username);
+            url .searchParams .set ("repository", repository);
+
+            window .location = url;
+         });
+
+         return;
+      }
+
+      $("main.stats") .show ();
       $("title") .text (`${this .username}/${this .repository} - ${$("title") .text ()}`);
 
       Columns .run (this .username, this .repository);
