@@ -31,7 +31,6 @@ class Stats
          return;
 
       $("title") .text (`${this .username}/${this .repository} - ${$("title") .text ()}`);
-      $(`#period option[value=${url .searchParams .get ("period")}]`) .prop ("selected", true);
 
       Columns .run (this .username, this .repository);
    }
@@ -62,6 +61,15 @@ class Columns
 
       this .canvas  = $(`<x3d-canvas splashScreen="false"></x3d-canvas>`);
       this .browser = this .canvas .get (0) .browser;
+      this .config  = this .browser .getLocalStorage () .addNameSpace ("jsDeliverStats.");
+
+      this .config .setDefaultValues ({
+         period: "quarter",
+      });
+
+      $("#period")
+         .val (this .config .period)
+         .on ("change", () => this .config .period = $("#period") .val ());
 
       this .browser .setBrowserOption ("AutoUpdate",    true);
       this .browser .setBrowserOption ("ContentScale",  -1);
