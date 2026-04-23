@@ -208,7 +208,8 @@ input[type="checkbox"]:checked::before {
   animation: rotating 2s linear infinite;
 }
 
-#stats {
+#column-chart,
+#area-chart {
   width: 100%;
   height: auto;
   aspect-ratio: 10 / 3;
