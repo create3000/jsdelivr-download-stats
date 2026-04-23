@@ -178,7 +178,7 @@ class ColumnChart
          fontLibrary    = this .scene .createNode ("FontLibrary");
 
       navigationInfo .set_bind = true;
-      navigationInfo .type     = ["NONE"];
+      navigationInfo .type     = new X3D .MFString ("NONE");
 
       background .set_bind     = true;
       background .transparency = 1;
@@ -190,7 +190,7 @@ class ColumnChart
       this .viewpoint = viewpoint;
 
       fontLibrary .family = "Roboto";
-      fontLibrary .url    = ["assets/fonts/Roboto/Roboto.ttf"];
+      fontLibrary .url    = new X3D .MFString ("assets/fonts/Roboto/Roboto.ttf");
 
       // await fontLibrary .getValue () .requestImmediateLoad ();
 
@@ -206,7 +206,7 @@ class ColumnChart
             coord      = this .scene .createNode ("Coordinate");
 
          coord    .point         = new X3D .MFVec3f (new X3D .SFVec3f (-0.01, 0, 0), new X3D .SFVec3f (-0.01, HEIGHT, 0));
-         geometry .vertexCount   = [2];
+         geometry .vertexCount   = new X3D .MFInt32 (2);
          material .emissiveColor = new X3D .SFColor (0.7, 0.7, 0.7);
 
          geometry .coord      = coord;
@@ -224,9 +224,9 @@ class ColumnChart
             material   = this .scene .createNode ("UnlitMaterial"),
             fontStyle  = this .scene .createNode ("ScreenFontStyle");
 
-         fontStyle .family       = ["Roboto", "SANS"];
+         fontStyle .family       = new X3D .MFString ("Roboto", "SANS");
          fontStyle .pointSize    = 9;
-         fontStyle .justify      = ["END"];
+         fontStyle .justify      = new X3D .MFString ("END");
          material .emissiveColor = this .colorScheme .matches
             ? new X3D .SFColor (0.3, 0.3, 0.3)
             : new X3D .SFColor (0.7, 0.7, 0.7);
@@ -349,7 +349,7 @@ class ColumnChart
             shape     = this .scene .createNode ("Shape"),
             text      = this .scene .createNode ("Text");
 
-         text .string    = [Math .min (y, max) .toLocaleString ("en")];
+         text .string    = new X3D .MFString (Math .min (y, max) .toLocaleString ("en"));
          text .solid     = true;
          text .fontStyle = this .axisTextFontStyle;
 
@@ -459,7 +459,7 @@ class AreaChart
          fontLibrary    = this .scene .createNode ("FontLibrary");
 
       navigationInfo .set_bind = true;
-      navigationInfo .type     = ["NONE"];
+      navigationInfo .type     = new X3D .MFString ("NONE");
 
       background .set_bind     = true;
       background .transparency = 1;
@@ -487,7 +487,7 @@ class AreaChart
             coord      = this .scene .createNode ("Coordinate");
 
          coord    .point         = new X3D .MFVec3f (new X3D .SFVec3f (-0.01, 0, 0), new X3D .SFVec3f (-0.01, HEIGHT, 0));
-         geometry .vertexCount   = [2];
+         geometry .vertexCount   = new X3D .MFInt32 (2);
          material .emissiveColor = new X3D .SFColor (0.7, 0.7, 0.7);
 
          geometry .coord      = coord;
@@ -505,9 +505,9 @@ class AreaChart
             material   = this .scene .createNode ("UnlitMaterial"),
             fontStyle  = this .scene .createNode ("ScreenFontStyle");
 
-         fontStyle .family       = ["Roboto", "SANS"];
+         fontStyle .family       = new X3D .MFString ("Roboto", "SANS");
          fontStyle .pointSize    = 9;
-         fontStyle .justify      = ["END"];
+         fontStyle .justify      = new X3D .MFString ("END");
          material .emissiveColor = this .colorScheme .matches
             ? new X3D .SFColor (0.3, 0.3, 0.3)
             : new X3D .SFColor (0.7, 0.7, 0.7);
@@ -567,7 +567,7 @@ class AreaChart
 
       // Clear group.
 
-      this .group .children = [this .transform];
+      this .group .children = new X3D .MFNode (this .transform);
 
       // Determine layout values.
 
@@ -603,7 +603,7 @@ class AreaChart
             shape     = this .scene .createNode ("Shape"),
             text      = this .scene .createNode ("Text");
 
-         text .string    = [Math .min (y, max) .toLocaleString ("en")];
+         text .string    = new X3D .MFString (Math .min (y, max) .toLocaleString ("en"));
          text .solid     = true;
          text .fontStyle = this .axisTextFontStyle;
 
