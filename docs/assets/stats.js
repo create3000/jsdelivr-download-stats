@@ -56,11 +56,17 @@ class Stats
 
       this .config .setDefaultValues ({
          period: "quarter",
+         monthSmoothyRange: 2,
+         quarterSmoothyRange: 5,
+         yearSmoothyRange: 10,
       });
 
       $("#period")
          .val (this .config .period)
          .on ("change", () => this .config .period = $("#period") .val ());
+
+      $("#smoothy-range")
+         .on ("change", () => this .config [`${$("#period") .val ()}SmoothyRange`] = parseInt ($("#smoothy-range") .val ()));
 
       // Charts
 
@@ -85,6 +91,7 @@ class Stats
    {
       $("#refresh") .addClass ("active");
       $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
+      $("#smoothy-range") .val (this .config [`${$("#period") .val ()}SmoothyRange`]);
 
       // Download and combine entries.
       const entries = await this .downloadEntries ($("#period") .val ());
