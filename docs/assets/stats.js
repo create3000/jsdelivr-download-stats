@@ -298,6 +298,9 @@ class ColumnChart
 
    async build (entries)
    {
+      if (!entries)
+         return;
+
       this .entries = entries;
 
       // Clear group.
@@ -409,9 +412,13 @@ class AreaChart
 
    async build (entries)
    {
+      if (!entries)
+         return;
+
       this .entries = entries;
 
-      
+      // Clear group.
+
    }
 }
 
