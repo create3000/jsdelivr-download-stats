@@ -260,18 +260,19 @@ class ColumnChart
       // Geometry for GitHub and npm
       {
          const
-            transform  = this .scene .createNode ("Transform"),
-            shape      = this .scene .createNode ("Shape"),
-            geometry   = this .scene .createNode ("IndexedTriangleSet"),
-            color      = this .scene .createNode ("ColorRGBA"),
-            coord      = this .scene .createNode ("Coordinate");
+            transform   = this .scene .createNode ("Transform"),
+            shape       = this .scene .createNode ("Shape"),
+            geometry    = this .scene .createNode ("IndexedTriangleSet"),
+            color       = this .scene .createNode ("ColorRGBA"),
+            coord       = this .scene .createNode ("Coordinate"),
+            touchSensor = this .scene .createNode ("TouchSensor");
 
          geometry .colorPerVertex = false;
          geometry .color          = color;
          geometry .coord          = coord;
          shape .geometry          = geometry;
 
-         transform .children .push (shape);
+         transform .children .push (shape, touchSensor);
 
          this .transform = transform;
          this .geometry  = geometry;
