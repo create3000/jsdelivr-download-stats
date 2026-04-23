@@ -1,6 +1,6 @@
-import X3D from "https://cdn.jsdelivr.net/npm/x_ite@latest/dist/x_ite.min.mjs";
-// import X3D from "../../../x_ite/dist/x_ite.min.mjs";
-import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.module.min.js";
+import X3D         from "https://cdn.jsdelivr.net/npm/x_ite@latest/dist/x_ite.min.mjs";
+import DataStorage from "./js/DataStorage.js";
+import { $ }       from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.module.min.js";
 
 // window .X3D = X3D;
 
@@ -31,6 +31,8 @@ class Stats
 
       if (!this .username || !this .repository)
       {
+         // Show username and repository inputs.
+
          $("main.inputs") .show ();
 
          $("main.inputs .submit") .on ("click", () =>
@@ -48,26 +50,78 @@ class Stats
          return;
       }
 
+      // Configuration
+
+      this .config = new DataStorage (localStorage, "jsDeliverStats.");
+
+      this .config .setDefaultValues ({
+         period: "quarter",
+      });
+
+      $("#period")
+         .val (this .config .period)
+         .on ("change", () => this .config .period = $("#period") .val ());
+
+      // Charts
+
       $("main.stats") .show ();
       $("title") .text (`${this .username}/${this .repository} - ${$("title") .text ()}`);
 
-      Columns .run (this .username, this .repository);
+      $("#refresh") .on ("click", () => this .build ());
+      $("#period") .on ("change", () => this .build ());
+
+      this .columnChart = new ColumnChart (this .username, this .repository);
+      this .areaChart   = new AreaChart (this .username, this .repository);
+
+      await Promise .all ([
+         this .columnChart .setup (),
+         this .areaChart .setup (),
+      ]);
+
+      this .build ();
+   }
+
+   async build ()
+   {
+      $("#refresh") .addClass ("active");
+      $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
+
+      // Download and combine entries.
+      const entries = await this .downloadEntries ($("#period") .val ());
+
+      await Promise .all ([
+         this .columnChart .build (entries),
+         this .areaChart .build (entries),
+      ]);
+
+      $("#refresh") .removeClass ("active");
+   }
+
+   async downloadEntries (period = "quarter")
+   {
+      const { username, repository } = this;
+
+      const github  = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
+      const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
+      const entries = Object .entries (github .hits .dates) .map (([date, hits]) => [date, { github: hits, npm: npm .hits .dates [date] }]);
+
+      return entries;
+   }
+
+   async download (url)
+   {
+      const response = await fetch (url);
+
+      return await response .json ();
    }
 }
 
-class Columns
+class ColumnChart
 {
-   static run (username, repository)
-   {
-      this .instance = new Columns (username, repository);
-   }
-
    constructor (username, repository)
    {
       this .username   = username;
       this .repository = repository;
-
-      this .setup ();
    }
 
    async setup ()
@@ -80,15 +134,6 @@ class Columns
 
       this .canvas  = $(`<x3d-canvas splashScreen="false"></x3d-canvas>`);
       this .browser = this .canvas .get (0) .browser;
-      this .config  = this .browser .getLocalStorage () .addNameSpace ("jsDeliverStats.");
-
-      this .config .setDefaultValues ({
-         period: "quarter",
-      });
-
-      $("#period")
-         .val (this .config .period)
-         .on ("change", () => this .config .period = $("#period") .val ());
 
       this .browser .addBrowserCallback ("check", X3D .X3DConstants .CONNECTION_ERROR, () =>
       {
@@ -241,11 +286,7 @@ class Columns
 
       // Stats
 
-      $("#refresh") .on ("click", () => this .build ());
-      $("#period") .on ("change", () => this .build ());
-      $("#hosts input") .on ("change", () => this .buildColumns ());
-
-      this .build ();
+      $("#hosts input") .on ("change", () => this .build ());
    }
 
    changeColorScheme (colorScheme)
@@ -255,32 +296,7 @@ class Columns
          : new X3D .SFColor (0.7, 0.7, 0.7);
    }
 
-   async build ()
-   {
-      $("#refresh") .addClass ("active");
-      $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
-
-      await this .downloadEntries ($("#period") .val ());
-
-      // Download and combine entries.
-
-      await this .buildColumns ();
-
-      $("#refresh") .removeClass ("active");
-   }
-
-   async downloadEntries (period = "quarter")
-   {
-      const { username, repository } = this;
-
-      const github  = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
-      const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
-      const entries = Object .entries (github .hits .dates) .map (([date, hits]) => [date, { github: hits, npm: npm .hits .dates [date] }]);
-
-      this .entries = entries;
-   }
-
-   async buildColumns ()
+   async build (entries)
    {
       // Clear group.
 
@@ -289,7 +305,6 @@ class Columns
       // Determine layout values.
 
       const
-         entries = this .entries,
          gap     = $("#period") .val () === "year" ? 0 : 0.002,
          length  = entries .length,
          width   = (WIDTH - gap * (length - 1)) / length;
@@ -369,16 +384,27 @@ class Columns
       }
    }
 
-   async download (url)
-   {
-      const response = await fetch (url);
-
-      return await response .json ();
-   }
-
    floor (value, step)
    {
       return Math .floor (value / step) * step;
+   }
+}
+
+class AreaChart
+{
+   constructor (username, repository)
+   {
+
+   }
+
+   async setup ()
+   {
+
+   }
+
+   async build ()
+   {
+
    }
 }
 
