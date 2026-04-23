@@ -286,7 +286,7 @@ class ColumnChart
 
       // Stats
 
-      $("#hosts input") .on ("change", () => this .build ());
+      $("#hosts input") .on ("change", () => this .build (this .entries));
    }
 
    changeColorScheme (colorScheme)
@@ -298,6 +298,8 @@ class ColumnChart
 
    async build (entries)
    {
+      this .entries = entries;
+
       // Clear group.
 
       this .group .children .length = 0;
@@ -399,12 +401,17 @@ class AreaChart
 
    async setup ()
    {
+      // Stats
+
+      $("#hosts input") .on ("change", () => this .build (this .entries));
 
    }
 
-   async build ()
+   async build (entries)
    {
+      this .entries = entries;
 
+      
    }
 }
 
