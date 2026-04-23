@@ -331,7 +331,7 @@ class ColumnChart
 
       this .group .scale .y = 1 / max * HEIGHT;
 
-      const step = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 5, 1))) / 2);
+      const step = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 10, 1))) / 2);
 
       for (let y = 0; y < max + step; y += step)
       {
