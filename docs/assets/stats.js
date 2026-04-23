@@ -169,6 +169,11 @@ class ColumnChart
 
       $("#column-chart") .append (this .canvas);
 
+      // Colors
+
+      this .githubColor = new X3D .SFColor ( 47 / 255, 129 / 255, 247 / 255); // rgb(47, 129, 247)
+      this .npmColor    = new X3D .SFColor (203 / 255,  56 / 255,  55 / 255); // rgb(203, 56, 55)
+
       // Environment
 
       const
@@ -257,7 +262,7 @@ class ColumnChart
             appearance = this .scene .createNode ("Appearance"),
             material   = this .scene .createNode ("UnlitMaterial");
 
-         material .emissiveColor = new X3D .SFColor (47 / 255, 129 / 255, 247 / 255); // rgb(47, 129, 247)
+         material .emissiveColor = this .githubColor;
 
          appearance .material = material;
          shape .appearance    = appearance;
@@ -278,7 +283,7 @@ class ColumnChart
             appearance = this .scene .createNode ("Appearance"),
             material   = this .scene .createNode ("UnlitMaterial");
 
-         material .emissiveColor = new X3D .SFColor (203 / 255, 56 / 255, 55 / 255); // rgb(203, 56, 55)
+         material .emissiveColor = this .npmColor;
 
          appearance .material = material;
          shape .appearance    = appearance;
@@ -449,6 +454,11 @@ class AreaChart
       await this .browser .replaceWorld (this .scene);
 
       $("#area-chart") .append (this .canvas);
+
+      // Colors
+
+      this .githubColor = new X3D .SFColorRGBA ( 47 / 255, 129 / 255, 247 / 255, 1); // rgb(47, 129, 247)
+      this .npmColor    = new X3D .SFColorRGBA (203 / 255,  56 / 255,  55 / 255, 1); // rgb(203, 56, 55)
 
       // Environment
 
@@ -646,13 +656,8 @@ class AreaChart
             this .geometry .index .push (t, t + 4, t + 1, t, t + 3, t + 4,  t + 1, t + 5, t + 2, t + 1, t + 4, t + 5);
 
             this .color .color .push (
-               new X3D .SFColorRGBA (47 / 255, 129 / 255, 247 / 255, 1), // rgb(47, 129, 247)
-               new X3D .SFColorRGBA (47 / 255, 129 / 255, 247 / 255, 1), // rgb(47, 129, 247)
-            );
-
-            this .color .color .push (
-               new X3D .SFColorRGBA (203 / 255,  56 / 255,  55 / 255, 1), // rgb(203, 56, 55)
-               new X3D .SFColorRGBA (203 / 255,  56 / 255,  55 / 255, 1), // rgb(203, 56, 55)
+               this .githubColor, this .githubColor,
+               this .npmColor, this .npmColor,
             );
          }
 
