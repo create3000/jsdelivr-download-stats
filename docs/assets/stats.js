@@ -181,8 +181,8 @@ class ColumnChart
 
       // Colors
 
-      this .githubColor = new X3D .SFColor ( 47 / 255, 129 / 255, 247 / 255); // rgb(47, 129, 247)
-      this .npmColor    = new X3D .SFColor (203 / 255,  56 / 255,  55 / 255); // rgb(203, 56, 55)
+      this .githubColor = new X3D .SFColorRGBA ( 47 / 255, 129 / 255, 247 / 255, 1); // rgb(47, 129, 247)
+      this .npmColor    = new X3D .SFColorRGBA (203 / 255,  56 / 255,  55 / 255, 1); // rgb(203, 56, 55)
 
       // Environment
 
@@ -257,53 +257,26 @@ class ColumnChart
 
       this .scene .rootNodes .push (this .group);
 
-      // Rectangles for GitHub and npm
-
-      const geometry = this .scene .createNode ("Rectangle2D");
-
-      geometry .solid = true;
-      geometry .size  = new X3D .SFVec2f (1, 1);
-
-      // GitHub
+      // Geometry for GitHub and npm
       {
          const
             transform  = this .scene .createNode ("Transform"),
             shape      = this .scene .createNode ("Shape"),
-            appearance = this .scene .createNode ("Appearance"),
-            material   = this .scene .createNode ("UnlitMaterial");
+            geometry   = this .scene .createNode ("IndexedTriangleSet"),
+            color      = this .scene .createNode ("ColorRGBA"),
+            coord      = this .scene .createNode ("Coordinate");
 
-         material .emissiveColor = this .githubColor;
-
-         appearance .material = material;
-         shape .appearance    = appearance;
-         shape .geometry      = geometry;
-
-         transform .translation = new X3D .SFVec3f (0.5, 0.5, 0);
+         geometry .colorPerVertex = false;
+         geometry .color          = color;
+         geometry .coord          = coord;
+         shape .geometry          = geometry;
 
          transform .children .push (shape);
 
-         this .github = transform;
-      }
-
-      // npm
-      {
-         const
-            transform  = this .scene .createNode ("Transform"),
-            shape      = this .scene .createNode ("Shape"),
-            appearance = this .scene .createNode ("Appearance"),
-            material   = this .scene .createNode ("UnlitMaterial");
-
-         material .emissiveColor = this .npmColor;
-
-         appearance .material = material;
-         shape .appearance    = appearance;
-         shape .geometry      = geometry;
-
-         transform .translation = new X3D .SFVec3f (0.5, 0.5, 0);
-
-         transform .children .push (shape);
-
-         this .npm = transform;
+         this .transform = transform;
+         this .geometry  = geometry;
+         this .color     = color;
+         this .coord     = coord;
       }
 
       // Stats
@@ -327,7 +300,7 @@ class ColumnChart
 
       // Clear group.
 
-      this .group .children .length = 0;
+      this .group .children = new X3D .MFNode (this .transform);
 
       // Determine layout values.
 
@@ -386,29 +359,36 @@ class ColumnChart
 
       // Add columns.
 
+      this .geometry .index .length = 0;
+      this .color .color .length    = 0;
+      this .coord .point .length    = 0;
+
       for (const [i, [date, hosts]] of entries .entries ())
       {
          let sumHits = 0;
 
-         const touchSensor = this .scene .createNode ("TouchSensor");
+         const t = i * 6;
 
-         touchSensor .description = i;
+         this .geometry .index .push (t, t + 1, t + 3, t, t + 3, t + 2,  t + 2, t + 3, t + 5, t + 2, t + 5, t + 4);
+
+         this .color .color .push (
+            this .githubColor, this .githubColor,
+            this .npmColor, this .npmColor,
+         );
+
+         this .coord .point .push (
+            new X3D .SFVec3f (i * (width + gap),         sumHits, 0),
+            new X3D .SFVec3f (i * (width + gap) + width, sumHits, 0),
+         );
 
          for (const [host, hits] of Object .entries (hosts))
          {
-            if (!$(`#show-${host}`) .is (":checked"))
-               continue;
+            const y = $(`#show-${host}`) .is (":checked") ? sumHits += hits : sumHits;
 
-            const transform = this .scene .createNode ("Transform");
-
-            transform .translation = new X3D .SFVec3f (i * (width + gap), sumHits, 0);
-            transform .scale       = new X3D .SFVec3f (width, hits, 1);
-
-            transform .children .push (touchSensor, this [host]);
-
-            this .group .children .push (transform);
-
-            sumHits += hits;
+            this .coord .point .push (
+               new X3D .SFVec3f (i * (width + gap),         y, 0),
+               new X3D .SFVec3f (i * (width + gap) + width, y, 0),
+            );
          }
       }
    }
