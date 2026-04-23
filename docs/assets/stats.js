@@ -617,6 +617,8 @@ class AreaChart
 
       // Add columns.
 
+      const range = 5;
+
       this .geometry .index .length = 0;
       this .color .color .length    = 0;
       this .coord .point .length    = 0;
@@ -650,7 +652,23 @@ class AreaChart
 
          for (const [host, hits] of Object .entries (hosts))
          {
-            const y = $(`#show-${host}`) .is (":checked") ? sumHits += hits : sumHits;
+            let
+               accumulatedHits = hits,
+               numEntries      = 1;
+
+            for (let k = i - range; k < i + range + 1; ++ k)
+            {
+               const entry = entries [k];
+
+               if (!entry)
+                  continue;
+
+               accumulatedHits += entry [1] [host];
+
+               ++ numEntries;
+            }
+
+            const y = $(`#show-${host}`) .is (":checked") ? sumHits += accumulatedHits / numEntries : sumHits;
 
             this .coord .point .push (new X3D .SFVec3f (i * width, y, 0));
          }
