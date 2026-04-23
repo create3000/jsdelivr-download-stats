@@ -4,6 +4,8 @@
 
 @media (prefers-color-scheme: light) {
   :root {
+    color-scheme: light;
+
     /* System Colors */
 
     --system-red: rgb(255, 56, 60);
@@ -33,6 +35,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
+
     /* System Colors */
 
     --system-red: rgb(255, 66, 69);
@@ -138,6 +142,7 @@ label[for] {
 
 button,
 input[type="text"],
+input[type="number"],
 select {
   box-sizing: border-box;
   appearance: none;
@@ -146,7 +151,7 @@ select {
   font-size: inherit;
   border-radius: 16px;
   background: var(--secondary-background-color);
-  color: inherit;
+  color: var(--text-color);
   outline: none;
 }
 
@@ -185,7 +190,7 @@ input[type="checkbox"]:checked::before {
   content: "check_circle";
 }
 
-#buttons {
+#global-buttons {
   display: flex;
   justify-content: space-between;
 }

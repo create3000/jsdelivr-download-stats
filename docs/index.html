@@ -28,7 +28,7 @@
       <p><button class="submit">Show jsDeliver Download Stats!</button></p>
     </main>
     <main class="stats">
-      <div id="buttons">
+      <div id="global-buttons">
         <p>Data range: <select id="period">
             <option value="month">month</option>
             <option value="quarter" selected>quarter</option>
@@ -40,6 +40,9 @@
       <h2>Stats for Past <span id="period-title">Quarter</span></h2>
       <div id="column-chart"></div>
       <h3>Smoothy Data</h3>
+      <div id="smooty-buttons">
+        <p>Smoothy range: <input id="smoothy-range" type="number" min="1" value="1" style="width: 80px;"> days</p>
+      </div>
       <div id="area-chart"></div>
       <p id="hosts">
         <input type="checkbox" id="show-github" class="material-symbols-outlined" checked>

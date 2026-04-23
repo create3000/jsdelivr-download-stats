@@ -541,6 +541,7 @@ class AreaChart
       // Stats
 
       $("#hosts input") .on ("change", () => this .build (this .entries));
+      $("#smoothy-range") .on ("change", () => this .build (this .entries));
    }
 
    changeColorScheme (colorScheme)
@@ -617,7 +618,7 @@ class AreaChart
 
       // Add columns.
 
-      const range = 5;
+      const range = parseInt ($("#smoothy-range") .val ());
 
       this .geometry .index .length = 0;
       this .color .color .length    = 0;
