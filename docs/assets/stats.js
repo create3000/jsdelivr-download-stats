@@ -56,6 +56,8 @@ class Stats
 
       this .config .setDefaultValues ({
          period: "quarter",
+         showGitHub: true,
+         showNpm: true,
          monthSmoothyRange: 2,
          quarterSmoothyRange: 5,
          yearSmoothyRange: 10,
@@ -64,6 +66,14 @@ class Stats
       $("#period")
          .val (this .config .period)
          .on ("change", () => this .config .period = $("#period") .val ());
+
+      $("#show-github")
+         .prop ("checked", this .config .showGitHub)
+         .on ("change", () => this .config .showGitHub = $("#show-github") .is (":checked"));
+
+      $("#show-npm")
+         .prop ("checked", this .config .showNpm)
+         .on ("change", () => this .config .showNpm    = $("#show-npm")    .is (":checked"));
 
       $("#smoothy-range")
          .on ("change", () => this .config [`${$("#period") .val ()}SmoothyRange`] = parseInt ($("#smoothy-range") .val ()));
