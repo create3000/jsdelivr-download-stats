@@ -20,16 +20,16 @@ class AreaChart extends Chart
 
    async build (entries)
    {
-      // Add labels.
-
-      if (!super .build (entries))
-         return;
-
       // Determine layout values.
 
       const
          length = entries .length,
          width  = WIDTH / length;
+
+      // Add labels.
+
+      if (!super .build (entries, width, 0))
+         return;
 
       // Add columns.
 
@@ -41,8 +41,6 @@ class AreaChart extends Chart
 
       // Create indices for four triangles.
       const indices = [0, 4, 1, 0, 3, 4,  1, 5, 2, 1, 4, 5];
-
-      let xLabel = "";
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
@@ -91,17 +89,6 @@ class AreaChart extends Chart
                : sumAccumulatedHits;
 
             this .coord .point .push (new X3D .SFVec3f (i * width, y, 0));
-         }
-
-         const label = new Date (date) .toLocaleString ("en", { month: "short" });
-
-         if (xLabel !== label)
-         {
-            xLabel = label;
-
-            const transform = this .createLabel ("x", i * width, -0.005, label);
-
-            this .xLabels .children .push (transform);
          }
       }
    }

@@ -13,17 +13,17 @@ class ColumnChart extends Chart
 
    async build (entries)
    {
+      const
+         length  = entries .length,
+         gap     = $("#period") .val () === "year" ? 0 : GAP,
+         width   = (WIDTH - gap * (length - 1)) / length;
+
       // Add labels.
 
-      if (!super .build (entries))
+      if (!super .build (entries, width, gap))
          return;
 
       // Determine layout values.
-
-      const
-         gap     = $("#period") .val () === "year" ? 0 : GAP,
-         length  = entries .length,
-         width   = (WIDTH - gap * (length - 1)) / length;
 
       // Add columns.
 
@@ -33,8 +33,6 @@ class ColumnChart extends Chart
 
       // Create indices for four triangles.
       const indices = [0, 1, 3, 0, 3, 2,  2, 3, 5, 2, 5, 4];
-
-      let xLabel = "";
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
@@ -64,17 +62,6 @@ class ColumnChart extends Chart
                new X3D .SFVec3f (i * (width + gap),         y, 0),
                new X3D .SFVec3f (i * (width + gap) + width, y, 0),
             );
-         }
-
-         const label = new Date (date) .toLocaleString ("en", { month: "short" });
-
-         if (xLabel !== label)
-         {
-            xLabel = label;
-
-            const transform = this .createLabel ("x", i * (width + gap), -0.005, label);
-
-            this .xLabels .children .push (transform);
          }
       }
    }

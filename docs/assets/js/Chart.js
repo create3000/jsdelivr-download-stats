@@ -185,7 +185,7 @@ class AreaChart
       return [... context .getImageData (0, 0, 1, 1) .data .subarray (0, 3)];
    }
 
-   async build (entries)
+   async build (entries, width, gap)
    {
       if (!entries)
          return false;
@@ -213,6 +213,26 @@ class AreaChart
       0);
 
       // Add labels.
+
+      // Add x labels.
+
+      let xLabel = "";
+
+      for (const [i, [date, hosts]] of entries .entries ())
+      {
+         const label = new Date (date) .toLocaleString ("en", { month: "short" });
+
+         if (xLabel === label)
+            continue;
+
+         xLabel = label;
+
+         const transform = this .createLabel ("x", i * (width + gap), -0.005, label);
+
+         this .xLabels .children .push (transform);
+      }
+
+      // Add y labels.
 
       const
          log    = Math .log10 (Math .max (this .max / 10, 1)),
