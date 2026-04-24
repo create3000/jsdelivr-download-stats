@@ -24,22 +24,16 @@ class AreaChart extends Chart
 
    async build (entries)
    {
-      if (!entries)
+      // Add labels.
+
+      if (!super .build (entries))
          return;
-
-      this .entries = entries;
-
-      // Clear group.
-
-      this .group .children = new X3D .MFNode (this .transform);
 
       // Determine layout values.
 
       const
          length = entries .length,
          width  = WIDTH / length;
-
-      let max = 0;
 
       // Add columns.
 
@@ -51,9 +45,7 @@ class AreaChart extends Chart
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
-         let
-            sumHits            = 0,
-            sumAccumulatedHits = 0;
+         let sumAccumulatedHits = 0;
 
          if (i > 0)
          {
@@ -96,22 +88,13 @@ class AreaChart extends Chart
 
             // console .log (startEntry, endEntry, numEntries, accumulatedHits)
 
-            if ($(`#show-${host}`) .is (":checked"))
-               sumHits += hits;
-
             const y = $(`#show-${host}`) .is (":checked")
                ? sumAccumulatedHits += accumulatedHits / numEntries
                : sumAccumulatedHits;
 
             this .coord .point .push (new X3D .SFVec3f (i * width, y, 0));
          }
-
-         max = Math .max (max, sumHits);
       }
-
-      // Add labels.
-
-      super .build (max);
    }
 }
 

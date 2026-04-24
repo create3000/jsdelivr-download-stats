@@ -17,14 +17,10 @@ class ColumnChart extends Chart
 
    async build (entries)
    {
-      if (!entries)
+      // Add labels.
+
+      if (!super .build (entries))
          return;
-
-      this .entries = entries;
-
-      // Clear group.
-
-      this .group .children = new X3D .MFNode (this .transform);
 
       // Determine layout values.
 
@@ -32,8 +28,6 @@ class ColumnChart extends Chart
          gap     = $("#period") .val () === "year" ? 0 : 0.002,
          length  = entries .length,
          width   = (WIDTH - gap * (length - 1)) / length;
-
-      let max = 0;
 
       // Add columns.
 
@@ -70,13 +64,7 @@ class ColumnChart extends Chart
                new X3D .SFVec3f (i * (width + gap) + width, y, 0),
             );
          }
-
-         max = Math .max (max, sumHits);
       }
-
-      // Add labels.
-
-      super .build (max);
    }
 }
 

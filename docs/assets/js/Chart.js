@@ -180,8 +180,32 @@ class AreaChart
       return [... context .getImageData (0, 0, 1, 1) .data .subarray (0, 3)];
    }
 
-   async build (max)
+   async build (entries)
    {
+      if (!entries)
+         return false;
+
+      this .entries = entries;
+
+      // Clear group.
+
+      this .group .children = new X3D .MFNode (this .transform);
+
+      // Determine max.
+
+      const max = entries .reduce ((p, [date, hosts]) =>
+      {
+         return Math .max (p, Object .keys (hosts) .reduce ((p, host) =>
+         {
+            if (!$(`#show-${host}`) .is (":checked"))
+               return p;
+
+            return p + hosts [host];
+         },
+         0));
+      },
+      0);
+
       // Add labels.
 
       const
@@ -219,6 +243,8 @@ class AreaChart
       // Scale all.
 
       this .group .scale .y = 1 / max * HEIGHT;
+
+      return true;
    }
 }
 
