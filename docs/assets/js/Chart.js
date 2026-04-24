@@ -57,13 +57,10 @@ class AreaChart
       // Environment
 
       const
-         navigationInfo = this .scene .createNode ("NavigationInfo"),
          background     = this .scene .createNode ("Background"),
          viewpoint      = this .scene .createNode ("OrthoViewpoint"),
+         navigationInfo = this .scene .createNode ("NavigationInfo"),
          fontLibrary    = this .scene .createNode ("FontLibrary");
-
-      navigationInfo .set_bind = true;
-      navigationInfo .type     = new X3D .MFString ("NONE");
 
       background .set_bind     = true;
       background .transparency = 1;
@@ -72,6 +69,8 @@ class AreaChart
       viewpoint .position       = new X3D .SFVec3f (0, 0, 10);
       viewpoint .fieldOfView    = new X3D .SFVec4f (-0.15, -0.01, WIDTH, HEIGHT);
       viewpoint .navigationInfo = navigationInfo;
+
+      navigationInfo .type = new X3D .MFString ("NONE");
 
       fontLibrary .family = "Roboto";
       fontLibrary .url    = new X3D .MFString ("assets/fonts/Roboto/Roboto.ttf");
