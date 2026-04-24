@@ -41,7 +41,6 @@ class AreaChart
       const
          profile = this .browser .getProfile ("Interchange"),
          components = [
-            this .browser .getComponent ("Geometry2D"),
             this .browser .getComponent ("Layout"),
             this .browser .getComponent ("PointingDeviceSensor"),
             this .browser .getComponent ("Text"),
