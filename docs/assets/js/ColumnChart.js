@@ -105,7 +105,7 @@ class ColumnChart
          this .scene .rootNodes .push (shape);
       }
 
-      // Axis Text
+      // Labels
       {
          const
             appearance = this .scene .createNode ("Appearance"),
@@ -117,8 +117,8 @@ class ColumnChart
          fontStyle .justify   = new X3D .MFString ("END");
          appearance .material = material;
 
-         this .axisTextAppearance = appearance;
-         this .axisTextFontStyle  = fontStyle;
+         this .labelsAppearance = appearance;
+         this .labelsFontStyle  = fontStyle;
       }
 
       // Group
@@ -154,6 +154,8 @@ class ColumnChart
 
       $("#hosts input") .on ("change", () => this .build (this .entries));
 
+      $("#max") .on ("change", () => this .build (this .entries));
+
       // Color Scheme
 
       this .changeColorScheme ();
@@ -165,7 +167,7 @@ class ColumnChart
 
       this .textColor = this .cssToRGB (style .getPropertyValue ("--text-color"));
 
-      this .axisTextAppearance .material .emissiveColor = new X3D .SFColor (... this .textColor .map (c => c / 255));
+      this .labelsAppearance .material .emissiveColor = new X3D .SFColor (... this .textColor .map (c => c / 255));
    }
 
    cssToRGB (css)
@@ -248,20 +250,25 @@ class ColumnChart
 
       for (let y = 0; y < max + step; y += step)
       {
+         const hits = Math .min (y, max);
+
+         if (hits !== max && hits > max * 0.95)
+            continue;
+
          const
             transform = this .scene .createNode ("Transform"),
             shape     = this .scene .createNode ("Shape"),
             text      = this .scene .createNode ("Text");
 
-         text .string    = new X3D .MFString (Math .min (y, max) .toLocaleString ("en"));
+         text .string    = new X3D .MFString (hits .toLocaleString ("en"));
          text .solid     = true;
-         text .fontStyle = this .axisTextFontStyle;
+         text .fontStyle = this .labelsFontStyle;
 
-         shape .appearance = this .axisTextAppearance;
+         shape .appearance = this .labelsAppearance;
          shape .geometry   = text;
 
          transform .translation .x = -0.02;
-         transform .translation .y = Math .min (y, max);
+         transform .translation .y = hits;
 
          transform .children .push (shape);
 
