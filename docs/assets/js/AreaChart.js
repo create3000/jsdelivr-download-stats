@@ -40,9 +40,7 @@ class AreaChart extends Chart
       this .coord .point .length    = 0;
 
       // Create indices for four triangles.
-      const
-         indices = [0, 4, 1, 0, 3, 4,  1, 5, 2, 1, 4, 5],
-         months  = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const indices = [0, 4, 1, 0, 3, 4,  1, 5, 2, 1, 4, 5];
 
       let xLabel = "";
 
@@ -95,7 +93,7 @@ class AreaChart extends Chart
             this .coord .point .push (new X3D .SFVec3f (i * width, y, 0));
          }
 
-         const label = months [new Date (date) .getMonth ()];
+         const label = new Date (date) .toLocaleString ("en", { month: "short" });
 
          if (xLabel !== label)
          {

@@ -32,9 +32,7 @@ class ColumnChart extends Chart
       this .coord .point .length    = 0;
 
       // Create indices for four triangles.
-      const
-         indices = [0, 1, 3, 0, 3, 2,  2, 3, 5, 2, 5, 4],
-         months  = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const indices = [0, 1, 3, 0, 3, 2,  2, 3, 5, 2, 5, 4];
 
       let xLabel = "";
 
@@ -68,7 +66,7 @@ class ColumnChart extends Chart
             );
          }
 
-         const label = months [new Date (date) .getMonth ()];
+         const label = new Date (date) .toLocaleString ("en", { month: "short" });
 
          if (xLabel !== label)
          {
