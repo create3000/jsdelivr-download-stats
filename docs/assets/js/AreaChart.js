@@ -6,7 +6,8 @@ import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.
 
 const
    WIDTH  = 1,
-   HEIGHT = 0.3;
+   HEIGHT = 0.3,
+   GAP    = 0.002;
 
 class AreaChart extends Chart
 {
@@ -43,6 +44,9 @@ class AreaChart extends Chart
       this .color .color .length    = 0;
       this .coord .point .length    = 0;
 
+      // Create indices for four triangles.
+      const indices = [0, 4, 1, 0, 3, 4,  1, 5, 2, 1, 4, 5];
+
       for (const [i, [date, hosts]] of entries .entries ())
       {
          let sumAccumulatedHits = 0;
@@ -51,7 +55,7 @@ class AreaChart extends Chart
          {
             const t = (i - 1) * 3;
 
-            this .geometry .index .push (t, t + 4, t + 1, t, t + 3, t + 4,  t + 1, t + 5, t + 2, t + 1, t + 4, t + 5);
+            this .geometry .index .push (... indices .map (i => i + t));
 
             this .color .color .push (
                this .githubColor, this .githubColor,

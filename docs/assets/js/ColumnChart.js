@@ -6,7 +6,8 @@ import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.
 
 const
    WIDTH  = 1,
-   HEIGHT = 0.3;
+   HEIGHT = 0.3,
+   GAP    = 0.002;
 
 class ColumnChart extends Chart
 {
@@ -25,7 +26,7 @@ class ColumnChart extends Chart
       // Determine layout values.
 
       const
-         gap     = $("#period") .val () === "year" ? 0 : 0.002,
+         gap     = $("#period") .val () === "year" ? 0 : GAP,
          length  = entries .length,
          width   = (WIDTH - gap * (length - 1)) / length;
 
@@ -35,13 +36,16 @@ class ColumnChart extends Chart
       this .color .color .length    = 0;
       this .coord .point .length    = 0;
 
+      // Create indices for four triangles.
+      const indices = [0, 1, 3, 0, 3, 2,  2, 3, 5, 2, 5, 4];
+
       for (const [i, [date, hosts]] of entries .entries ())
       {
          let sumHits = 0;
 
          const t = i * 6;
 
-         this .geometry .index .push (t, t + 1, t + 3, t, t + 3, t + 2,  t + 2, t + 3, t + 5, t + 2, t + 5, t + 4);
+         this .geometry .index .push (... indices .map (i => i + t));
 
          this .color .color .push (
             this .githubColor, this .githubColor,
