@@ -13,6 +13,8 @@ class ColumnChart extends Chart
 
    async build (entries)
    {
+      // Determine layout values.
+
       const
          length  = entries .length,
          gap     = $("#period") .val () === "year" ? 0 : GAP,
@@ -22,8 +24,6 @@ class ColumnChart extends Chart
 
       if (!super .build (entries, width, gap))
          return;
-
-      // Determine layout values.
 
       // Add columns.
 
