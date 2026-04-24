@@ -72,8 +72,8 @@ class Stats
          .prop ("checked", this .config .showNpm)
          .on ("change", () => this .config .showNpm = $("#show-npm") .is (":checked"));
 
-      $("#smoothy-range")
-         .on ("change", () => this .config [`${$("#period") .val ()}SmoothyRange`] = parseInt ($("#smoothy-range") .val ()));
+      $("#smoothing-range")
+         .on ("change", () => this .config [`${$("#period") .val ()}SmoothyRange`] = parseInt ($("#smoothing-range") .val ()));
 
       // Charts
 
@@ -98,7 +98,7 @@ class Stats
    {
       $("#refresh") .addClass ("active");
       $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
-      $("#smoothy-range") .val (this .config [`${$("#period") .val ()}SmoothyRange`]);
+      $("#smoothing-range") .val (this .config [`${$("#period") .val ()}SmoothyRange`]);
 
       // Download and combine entries.
       const entries = await this .downloadEntries ($("#period") .val ());
