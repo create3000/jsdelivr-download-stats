@@ -73,8 +73,6 @@ class AreaChart
       viewpoint .fieldOfView    = new X3D .SFVec4f (-0.15, -0.01, WIDTH, HEIGHT);
       viewpoint .navigationInfo = navigationInfo;
 
-      this .viewpoint = viewpoint;
-
       fontLibrary .family = "Roboto";
       fontLibrary .url    = new X3D .MFString ("assets/fonts/Roboto/Roboto.ttf");
 
