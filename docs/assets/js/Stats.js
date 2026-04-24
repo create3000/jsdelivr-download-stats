@@ -119,8 +119,11 @@ class Stats
    {
       const { username, repository } = this;
 
-      const github  = await this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`);
-      const npm     = await this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`);
+      const [github, npm] = await Promise .all ([
+         this .download (`https://data.jsdelivr.com/v1/stats/packages/gh/${username}/${repository}?period=${period}`),
+         this .download (`https://data.jsdelivr.com/v1/stats/packages/npm/${repository}?period=${period}`),
+      ]);
+
       const entries = Object .entries (github .hits .dates) .map (([date, hits]) => [date, { github: hits, npm: npm .hits .dates [date] }]);
 
       return entries;
