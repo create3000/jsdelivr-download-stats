@@ -264,8 +264,9 @@ class AreaChart
          for (const [host, hits] of Object .entries (hosts))
          {
             const
+               even       = range % 2 === 0,
                startEntry = i - Math .floor (range / 2),
-               endEntry   = startEntry + range;
+               endEntry   = startEntry + range + even;
 
             let
                accumulatedHits = 0,
@@ -278,12 +279,18 @@ class AreaChart
                if (!entry)
                   continue;
 
-               accumulatedHits += entry [1] [host];
+               const factor = even && (e === startEntry || e === endEntry - 1) ? 2 : 1;
 
-               ++ numEntries;
+               accumulatedHits += entry [1] [host] / factor;
+
+               numEntries += 1 / factor;
             }
 
-            const y = $(`#show-${host}`) .is (":checked") ? sumHits += accumulatedHits / numEntries : sumHits;
+            // console .log (startEntry, endEntry, numEntries, accumulatedHits)
+
+            const y = $(`#show-${host}`) .is (":checked")
+               ? sumHits += accumulatedHits / numEntries
+               : sumHits;
 
             this .coord .point .push (new X3D .SFVec3f (i * width, y, 0));
          }

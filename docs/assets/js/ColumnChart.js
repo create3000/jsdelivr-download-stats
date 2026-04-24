@@ -258,7 +258,9 @@ class ColumnChart
 
          for (const [host, hits] of Object .entries (hosts))
          {
-            const y = $(`#show-${host}`) .is (":checked") ? sumHits += hits : sumHits;
+            const y = $(`#show-${host}`) .is (":checked")
+               ? sumHits += hits
+               : sumHits;
 
             this .coord .point .push (
                new X3D .SFVec3f (i * (width + gap),         y, 0),
