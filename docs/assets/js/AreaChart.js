@@ -268,12 +268,12 @@ class AreaChart
                endEntry   = startEntry + range;
 
             let
-               accumulatedHits = hits,
-               numEntries      = 1;
+               accumulatedHits = 0,
+               numEntries      = 0;
 
-            for (let k = startEntry; k <= endEntry; ++ k)
+            for (let e = startEntry; e < endEntry; ++ e)
             {
-               const entry = entries [k];
+               const entry = entries [e];
 
                if (!entry)
                   continue;
