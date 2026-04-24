@@ -40,7 +40,11 @@ class AreaChart extends Chart
       this .coord .point .length    = 0;
 
       // Create indices for four triangles.
-      const indices = [0, 4, 1, 0, 3, 4,  1, 5, 2, 1, 4, 5];
+      const
+         indices = [0, 4, 1, 0, 3, 4,  1, 5, 2, 1, 4, 5],
+         months  = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      let xLabel = "";
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
@@ -89,6 +93,17 @@ class AreaChart extends Chart
                : sumAccumulatedHits;
 
             this .coord .point .push (new X3D .SFVec3f (i * width, y, 0));
+         }
+
+         const label = months [new Date (date) .getMonth ()];
+
+         if (xLabel !== label)
+         {
+            xLabel = label;
+
+            const transform = this .createLabel ("x", i * width, -0.005, label);
+
+            this .xLabels .children .push (transform);
          }
       }
    }

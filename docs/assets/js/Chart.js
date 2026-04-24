@@ -105,17 +105,26 @@ class AreaChart
       // Labels
       {
          const
+            xTransform = this .scene .createNode ("Group"),
             appearance = this .scene .createNode ("Appearance"),
             material   = this .scene .createNode ("UnlitMaterial"),
-            fontStyle  = this .scene .createNode ("ScreenFontStyle");
+            xFontStyle = this .scene .createNode ("ScreenFontStyle"),
+            yFontStyle = this .scene .createNode ("ScreenFontStyle");
 
-         fontStyle .family    = new X3D .MFString ("Roboto", "SANS");
-         fontStyle .pointSize = 9;
-         fontStyle .justify   = new X3D .MFString ("END");
-         appearance .material = material;
+         xFontStyle .family    = new X3D .MFString ("Roboto", "SANS");
+         xFontStyle .pointSize = 9;
+         xFontStyle .justify   = new X3D .MFString ("BEGIN", "BEGIN");
+         yFontStyle .family    = new X3D .MFString ("Roboto", "SANS");
+         yFontStyle .pointSize = 9;
+         yFontStyle .justify   = new X3D .MFString ("END");
+         appearance .material  = material;
 
+         this .scene .rootNodes .push (xTransform);
+
+         this .xLabels          = xTransform,
          this .labelsAppearance = appearance;
-         this .labelsFontStyle  = fontStyle;
+         this .xLabelsFontStyle = xFontStyle;
+         this .yLabelsFontStyle = yFontStyle;
       }
 
       // Group
@@ -185,11 +194,12 @@ class AreaChart
 
       // Clear group.
 
-      this .group .children = new X3D .MFNode (this .transform);
+      this .group   .children = new X3D .MFNode (this .transform);
+      this .xLabels .children = new X3D .MFNode ();
 
       // Determine max.
 
-      const max = entries .reduce ((p, [date, hosts]) =>
+      this .max = entries .reduce ((p, [date, hosts]) =>
       {
          return Math .max (p, Object .keys (hosts) .reduce ((p, host) =>
          {
@@ -205,42 +215,49 @@ class AreaChart
       // Add labels.
 
       const
-         log    = Math .log10 (Math .max (max / 10, 1)),
+         log    = Math .log10 (Math .max (this .max / 10, 1)),
          factor = [5, 2, 1][Math .floor ((log - 0.001) * 3) % 3],
          step   = Math .ceil (10 ** Math .ceil (log) / factor);
 
-      for (let y = 0; y < max + step; y += step)
+      for (let y = 0; y < this .max + step; y += step)
       {
-         const hits = Math .min (y, max);
+         const hits = Math .min (y, this .max);
 
-         if (hits !== max && hits > max * 0.95)
+         if (hits !== this .max && hits > this .max * 0.95)
             continue;
 
-         const
-            transform = this .scene .createNode ("Transform"),
-            shape     = this .scene .createNode ("Shape"),
-            text      = this .scene .createNode ("Text");
-
-         text .string    = new X3D .MFString (hits .toLocaleString ("en"));
-         text .solid     = true;
-         text .fontStyle = this .labelsFontStyle;
-
-         shape .appearance = this .labelsAppearance;
-         shape .geometry   = text;
-
-         transform .translation .x = -0.02;
-         transform .translation .y = hits;
-
-         transform .children .push (shape);
+         const transform = this .createLabel ("y", -0.02, hits, hits .toLocaleString ("en"));
 
          this .group .children .push (transform);
       }
 
       // Scale all.
 
-      this .group .scale .y = 1 / max * HEIGHT;
+      this .group .scale .y = 1 / this .max * HEIGHT;
 
       return true;
+   }
+
+   createLabel (axis, x, y, string)
+   {
+      const
+         transform = this .scene .createNode ("Transform"),
+         shape     = this .scene .createNode ("Shape"),
+         text      = this .scene .createNode ("Text");
+
+      text .string    = new X3D .MFString (string);
+      text .solid     = true;
+      text .fontStyle = axis === "x" ? this .xLabelsFontStyle : this .yLabelsFontStyle;
+
+      shape .appearance = this .labelsAppearance;
+      shape .geometry   = text;
+
+      transform .translation .x = x;
+      transform .translation .y = y;
+
+      transform .children .push (shape);
+
+      return transform;
    }
 }
 

@@ -32,7 +32,11 @@ class ColumnChart extends Chart
       this .coord .point .length    = 0;
 
       // Create indices for four triangles.
-      const indices = [0, 1, 3, 0, 3, 2,  2, 3, 5, 2, 5, 4];
+      const
+         indices = [0, 1, 3, 0, 3, 2,  2, 3, 5, 2, 5, 4],
+         months  = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      let xLabel = "";
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
@@ -62,6 +66,17 @@ class ColumnChart extends Chart
                new X3D .SFVec3f (i * (width + gap),         y, 0),
                new X3D .SFVec3f (i * (width + gap) + width, y, 0),
             );
+         }
+
+         const label = months [new Date (date) .getMonth ()];
+
+         if (xLabel !== label)
+         {
+            xLabel = label;
+
+            const transform = this .createLabel ("x", i * (width + gap), -0.005, label);
+
+            this .xLabels .children .push (transform);
          }
       }
    }
