@@ -269,7 +269,10 @@ class AreaChart
 
       // Add labels.
 
-      const step = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 10, 1))) / 2);
+      const
+         log    = Math .log10 (Math .max (max / 10, 1)),
+         factor = [5, 2, 1][Math .floor ((log - 0.001) * 3) % 3],
+         step   = Math .ceil (10 ** Math .ceil (log) / factor);
 
       for (let y = 0; y < max + step; y += step)
       {
