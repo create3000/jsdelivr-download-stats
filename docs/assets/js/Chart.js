@@ -51,8 +51,14 @@ class AreaChart
 
       // Colors
 
-      this .githubColor = new X3D .SFColorRGBA ( 47 / 255, 129 / 255, 247 / 255, 1); // rgb(47, 129, 247)
-      this .npmColor    = new X3D .SFColorRGBA (203 / 255,  56 / 255,  55 / 255, 1); // rgb(203, 56, 55)
+      this .githubColor = new X3D .SFColor ( 47 / 255, 129 / 255, 247 / 255); // rgb(47, 129, 247)
+      this .npmColor    = new X3D .SFColor (203 / 255,  56 / 255,  55 / 255); // rgb(203, 56, 55)
+
+      // this .githubColor = new X3D .SFColor ();
+      // this .npmColor    = new X3D .SFColor ();
+
+      // this .githubColor .fromString (`rgb(47, 129, 247)`);
+      // this .npmColor    .fromString (`rgb(203, 56, 55)`);
 
       // Environment
 
@@ -139,7 +145,7 @@ class AreaChart
             transform  = this .scene .createNode ("Transform"),
             shape      = this .scene .createNode ("Shape"),
             geometry   = this .scene .createNode ("IndexedTriangleSet"),
-            color      = this .scene .createNode ("ColorRGBA"),
+            color      = this .scene .createNode ("Color"),
             coord      = this .scene .createNode ("Coordinate");
 
          geometry .colorPerVertex = false;
@@ -185,8 +191,8 @@ class AreaChart
          canvas  = document .createElement ("canvas"),
          context = canvas .getContext ("2d");
 
-      context.fillStyle = css;
-      context.fillRect (0, 0, 1, 1);
+      context .fillStyle = css;
+      context .fillRect (0, 0, 1, 1);
 
       return [... context .getImageData (0, 0, 1, 1) .data .subarray (0, 3)];
    }
