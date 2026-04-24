@@ -183,53 +183,7 @@ class AreaChart
          length = entries .length,
          width  = WIDTH / length;
 
-      // Determine max.
-
-      const max = entries .reduce ((p, [date, hosts]) =>
-      {
-         return Math .max (p, Object .keys (hosts) .reduce ((p, host) =>
-         {
-            if (!$(`#show-${host}`) .is (":checked"))
-               return p;
-
-            return p + hosts [host];
-         },
-         0));
-      },
-      0);
-
-      this .group .scale .y = 1 / max * HEIGHT;
-
-      // Add labels.
-
-      const step = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 10, 1))) / 2);
-
-      for (let y = 0; y < max + step; y += step)
-      {
-         const
-            transform = this .scene .createNode ("Transform"),
-            shape     = this .scene .createNode ("Shape"),
-            text      = this .scene .createNode ("Text");
-
-         text .string    = new X3D .MFString (Math .min (y, max) .toLocaleString ("en"));
-         text .solid     = true;
-         text .fontStyle = this .axisTextFontStyle;
-
-         shape .appearance = this .axisTextAppearance;
-         shape .geometry   = text;
-
-         transform .translation .x = -0.02;
-         transform .translation .y = Math .min (y, max);
-
-         transform .children .push (shape);
-
-         this .group .children .push (transform);
-      }
-
-      // this .group .children .at (-1) .children [0] .geometry .addFieldCallback (this, "textBounds", textBounds =>
-      // {
-      //    this .viewpoint .fieldOfView [0] = -textBounds .x / 1000;
-      // });
+      let max = 0;
 
       // Add columns.
 
@@ -241,11 +195,9 @@ class AreaChart
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
-         let sumHits = 0;
-
-         // const touchSensor = this .scene .createNode ("TouchSensor");
-
-         // touchSensor .description = i;
+         let
+            sumHits            = 0,
+            sumAccumulatedHits = 0;
 
          if (i > 0)
          {
@@ -259,7 +211,7 @@ class AreaChart
             );
          }
 
-         this .coord .point .push (new X3D .SFVec3f (i * width, sumHits, 0));
+         this .coord .point .push (new X3D .SFVec3f (i * width, sumAccumulatedHits, 0));
 
          for (const [host, hits] of Object .entries (hosts))
          {
@@ -288,15 +240,48 @@ class AreaChart
 
             // console .log (startEntry, endEntry, numEntries, accumulatedHits)
 
+            if ($(`#show-${host}`) .is (":checked"))
+               sumHits += hits;
+
             const y = $(`#show-${host}`) .is (":checked")
-               ? sumHits += accumulatedHits / numEntries
-               : sumHits;
+               ? sumAccumulatedHits += accumulatedHits / numEntries
+               : sumAccumulatedHits;
 
             this .coord .point .push (new X3D .SFVec3f (i * width, y, 0));
          }
+
+         max = Math .max (max, sumHits);
       }
 
-      // console .log (this .transform .toVRMLString ())
+      // Add labels.
+
+      const step = Math .ceil (10 ** Math .ceil (Math .log10 (Math .max (max / 10, 1))) / 2);
+
+      for (let y = 0; y < max + step; y += step)
+      {
+         const
+            transform = this .scene .createNode ("Transform"),
+            shape     = this .scene .createNode ("Shape"),
+            text      = this .scene .createNode ("Text");
+
+         text .string    = new X3D .MFString (Math .min (y, max) .toLocaleString ("en"));
+         text .solid     = true;
+         text .fontStyle = this .axisTextFontStyle;
+
+         shape .appearance = this .axisTextAppearance;
+         shape .geometry   = text;
+
+         transform .translation .x = -0.02;
+         transform .translation .y = Math .min (y, max);
+
+         transform .children .push (shape);
+
+         this .group .children .push (transform);
+      }
+
+      // Scale all.
+
+      this .group .scale .y = 1 / max * HEIGHT;
    }
 
    floor (value, step)
