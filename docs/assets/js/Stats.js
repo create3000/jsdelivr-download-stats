@@ -56,8 +56,8 @@ class Stats
          showGitHub: true,
          showNpm: true,
          monthSmoothyRange: 2,
-         quarterSmoothyRange: 5,
-         yearSmoothyRange: 10,
+         quarterSmoothyRange: 7,
+         yearSmoothyRange: 30,
       });
 
       $("#period")

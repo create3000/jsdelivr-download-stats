@@ -263,11 +263,15 @@ class AreaChart
 
          for (const [host, hits] of Object .entries (hosts))
          {
+            const
+               startEntry = i - Math .floor (range / 2),
+               endEntry   = startEntry + range;
+
             let
                accumulatedHits = hits,
                numEntries      = 1;
 
-            for (let k = i - range; k < i + range + 1; ++ k)
+            for (let k = startEntry; k <= endEntry; ++ k)
             {
                const entry = entries [k];
 
