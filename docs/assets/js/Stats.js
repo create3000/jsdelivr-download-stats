@@ -4,8 +4,6 @@ import AreaChart   from "./AreaChart.js";
 import DataStorage from "./DataStorage.js";
 import { $ }       from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.module.min.js";
 
-// window .X3D = X3D;
-
 class Stats
 {
    static run ()

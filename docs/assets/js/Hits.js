@@ -2,11 +2,6 @@ import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.
 
 class Hits
 {
-   constructor (username, repository)
-   {
-
-   }
-
    async setup ()
    {
       // Stats

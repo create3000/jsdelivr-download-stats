@@ -1,11 +1,7 @@
 import X3D   from "https://cdn.jsdelivr.net/npm/x_ite@latest/dist/x_ite.min.mjs";
 import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.module.min.js";
 
-// window .X3D = X3D;
-
-const
-   WIDTH  = 1,
-   HEIGHT = 0.3;
+import { WIDTH, HEIGHT } from "./Config.js";
 
 class AreaChart
 {
