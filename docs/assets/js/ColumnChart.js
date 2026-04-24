@@ -73,7 +73,7 @@ class ColumnChart
 
       viewpoint .set_bind    = true;
       viewpoint .position    = new X3D .SFVec3f (0, 0, 10);
-      viewpoint .fieldOfView = new X3D .SFVec4f (-0.11, 0, WIDTH, HEIGHT);
+      viewpoint .fieldOfView = new X3D .SFVec4f (-0.15, 0, WIDTH, HEIGHT);
 
       this .viewpoint = viewpoint;
 
