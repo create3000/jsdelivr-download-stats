@@ -63,9 +63,8 @@ class AreaChart extends Chart
          for (const [host, hits] of Object .entries (hosts))
          {
             const
-               even       = range % 2 === 0,
                startEntry = i - Math .floor (range / 2),
-               endEntry   = startEntry + range + even;
+               endEntry   = startEntry + range;
 
             let
                accumulatedHits = 0,
@@ -78,11 +77,9 @@ class AreaChart extends Chart
                if (!entry)
                   continue;
 
-               const factor = even && (e === startEntry || e === endEntry - 1) ? 2 : 1;
+               accumulatedHits += entry [1] [host];
 
-               accumulatedHits += entry [1] [host] / factor;
-
-               numEntries += 1 / factor;
+               ++ numEntries;
             }
 
             // console .log (startEntry, endEntry, numEntries, accumulatedHits)
