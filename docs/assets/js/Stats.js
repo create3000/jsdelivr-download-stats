@@ -1,3 +1,4 @@
+import Hits        from "./Hits.js";
 import ColumnChart from "./ColumnChart.js";
 import AreaChart   from "./AreaChart.js";
 import DataStorage from "./DataStorage.js";
@@ -130,46 +131,6 @@ class Stats
       const response = await fetch (url);
 
       return await response .json ();
-   }
-}
-
-class Hits
-{
-   constructor (username, repository)
-   {
-
-   }
-
-   async setup ()
-   {
-      // Stats
-
-      $("#hosts input") .on ("change", () => this .build (this .entries));
-   }
-
-   async build (entries)
-   {
-      if (!entries)
-         return;
-
-      this .entries = entries;
-
-      // Determine sum.
-
-      let sumHits = 0;
-
-      for (const [date, hosts] of entries)
-      {
-         for (const [host, hits] of Object .entries (hosts))
-         {
-            if (!$(`#show-${host}`) .is (":checked"))
-               continue;
-
-            sumHits += hits;
-         }
-      }
-
-      $("#hits") .text (sumHits .toLocaleString ("en"));
    }
 }
 
