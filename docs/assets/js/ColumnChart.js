@@ -154,8 +154,6 @@ class ColumnChart
 
       $("#hosts input") .on ("change", () => this .build (this .entries));
 
-      $("#max") .on ("change", () => this .build (this .entries));
-
       // Color Scheme
 
       this .changeColorScheme ();
