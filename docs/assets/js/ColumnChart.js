@@ -112,13 +112,10 @@ class ColumnChart
             material   = this .scene .createNode ("UnlitMaterial"),
             fontStyle  = this .scene .createNode ("ScreenFontStyle");
 
-         fontStyle .family       = new X3D .MFString ("Roboto", "SANS");
-         fontStyle .pointSize    = 9;
-         fontStyle .justify      = new X3D .MFString ("END");
-         material .emissiveColor = this .colorScheme .matches
-            ? new X3D .SFColor (0.3, 0.3, 0.3)
-            : new X3D .SFColor (0.7, 0.7, 0.7);
-         appearance .material    = material;
+         fontStyle .family    = new X3D .MFString ("Roboto", "SANS");
+         fontStyle .pointSize = 9;
+         fontStyle .justify   = new X3D .MFString ("END");
+         appearance .material = material;
 
          this .axisTextAppearance = appearance;
          this .axisTextFontStyle  = fontStyle;
@@ -156,13 +153,31 @@ class ColumnChart
       // Stats
 
       $("#hosts input") .on ("change", () => this .build (this .entries));
+
+      // Color Scheme
+
+      this .changeColorScheme ();
    }
 
    changeColorScheme (colorScheme)
    {
-      this .axisTextAppearance .material .emissiveColor = this .colorScheme .matches
-         ? new X3D .SFColor (0.3, 0.3, 0.3)
-         : new X3D .SFColor (0.7, 0.7, 0.7);
+      const style = window .getComputedStyle ($("body") [0]);
+
+      this .textColor = this .cssToRGB (style .getPropertyValue ("--text-color"));
+
+      this .axisTextAppearance .material .emissiveColor = new X3D .SFColor (... this .textColor .map (c => c / 255));
+   }
+
+   cssToRGB (css)
+   {
+      const
+         canvas  = document .createElement ("canvas"),
+         context = canvas .getContext ("2d");
+
+      context.fillStyle = css;
+      context.fillRect (0, 0, 1, 1);
+
+      return [... context .getImageData (0, 0, 1, 1) .data .slice (0, 3)];
    }
 
    async build (entries)
