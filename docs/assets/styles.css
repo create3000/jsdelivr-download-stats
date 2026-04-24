@@ -215,6 +215,18 @@ input[type="checkbox"]:checked::before {
   animation: rotating 2s linear infinite;
 }
 
+#hits-box {
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1em;
+}
+
+#hits-box .material-symbols-outlined {
+  position: relative;
+  top: 2px;
+  font-size: inherit;
+}
+
 #column-chart,
 #area-chart {
   width: 100%;

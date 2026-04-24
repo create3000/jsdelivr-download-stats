@@ -83,10 +83,12 @@ class Stats
       $("#refresh") .on ("click", () => this .build ());
       $("#period") .on ("change", () => this .build ());
 
+      this .hits        = new Hits (this .username, this .repository);
       this .columnChart = new ColumnChart (this .username, this .repository);
       this .areaChart   = new AreaChart (this .username, this .repository);
 
       await Promise .all ([
+         this .hits .setup (),
          this .columnChart .setup (),
          this .areaChart .setup (),
       ]);
@@ -104,6 +106,7 @@ class Stats
       const entries = await this .downloadEntries ($("#period") .val ());
 
       await Promise .all ([
+         this .hits .build (entries),
          this .columnChart .build (entries),
          this .areaChart .build (entries),
       ]);
@@ -127,6 +130,46 @@ class Stats
       const response = await fetch (url);
 
       return await response .json ();
+   }
+}
+
+class Hits
+{
+   constructor (username, repository)
+   {
+
+   }
+
+   async setup ()
+   {
+      // Stats
+
+      $("#hosts input") .on ("change", () => this .build (this .entries));
+   }
+
+   async build (entries)
+   {
+      if (!entries)
+         return;
+
+      this .entries = entries;
+
+      // Determine sum.
+
+      let sumHits = 0;
+
+      for (const [date, hosts] of entries)
+      {
+         for (const [host, hits] of Object .entries (hosts))
+         {
+            if (!$(`#show-${host}`) .is (":checked"))
+               continue;
+
+            sumHits += hits;
+         }
+      }
+
+      $("#hits") .text (sumHits .toLocaleString ("en"));
    }
 }
 
