@@ -177,7 +177,7 @@ class AreaChart
       context.fillStyle = css;
       context.fillRect (0, 0, 1, 1);
 
-      return [... context .getImageData (0, 0, 1, 1) .data .slice (0, 3)];
+      return [... context .getImageData (0, 0, 1, 1) .data .subarray (0, 3)];
    }
 
    async build (entries)
