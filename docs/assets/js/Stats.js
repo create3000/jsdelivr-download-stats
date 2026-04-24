@@ -98,7 +98,7 @@ class Stats
    async build ()
    {
       $("#refresh") .addClass ("active");
-      $("#period-title") .text ($("#period") .val () .toUpperCaseFirst ());
+      $("#period-title") .text ($("#period") .val ());
       $("#smoothing-range") .val (this .config [`${$("#period") .val ()}SmoothyRange`]);
 
       // Download and combine entries.
