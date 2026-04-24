@@ -27,6 +27,7 @@
     --secondary-background-color: #eee;
     --button-background-color: rgb(249, 250, 255);
     --button-highlight-color: #ddd;
+    --button-border-color: rgb(170, 170, 170);
     --text-color: black;
     --border-color: #ccc;
     --link-color: #007acc;
@@ -59,6 +60,7 @@
     --secondary-background-color: rgb(30, 30, 30);
     --button-background-color: rgb(39, 40, 45);
     --button-highlight-color: rgb(50, 50, 50);
+    --button-border-color: rgb(170, 170, 170);
     --text-color: rgb(175, 176, 177);
     --border-color: rgb(41, 41, 41);
     --link-color: #66aaff;
@@ -148,7 +150,7 @@ input[type="number"],
 select {
   box-sizing: border-box;
   appearance: none;
-  border: 1px solid #aaa;
+  border: 1px solid var(--button-border-color);
   padding: 4px 10px;
   font-size: inherit;
   border-radius: 16px;
