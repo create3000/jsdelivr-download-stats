@@ -54,11 +54,8 @@ class AreaChart
       this .githubColor = new X3D .SFColor ( 47 / 255, 129 / 255, 247 / 255); // rgb(47, 129, 247)
       this .npmColor    = new X3D .SFColor (203 / 255,  56 / 255,  55 / 255); // rgb(203, 56, 55)
 
-      // this .githubColor = new X3D .SFColor ();
-      // this .npmColor    = new X3D .SFColor ();
-
-      // this .githubColor .fromString (`rgb(47, 129, 247)`);
-      // this .npmColor    .fromString (`rgb(203, 56, 55)`);
+      // this .githubColor = SFColor .fromString (`rgb(47, 129, 247)`);
+      // this .npmColor    = SFColor .fromString (`rgb(203, 56, 55)`);
 
       // Environment
 
