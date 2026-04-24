@@ -233,7 +233,7 @@ class AreaChart
 
          xLabel = label;
 
-         const transform = this .createLabel ("x", i * (width + gap), -0.005, label);
+         const transform = this .createLabel ("X", i * (width + gap), -0.005, label);
 
          this .xLabels .children .push (transform);
       }
@@ -252,7 +252,7 @@ class AreaChart
          if (hits !== this .max && hits > this .max * 0.95)
             continue;
 
-         const transform = this .createLabel ("y", -0.02, hits, hits .toLocaleString ("en"));
+         const transform = this .createLabel ("Y", -0.02, hits, hits .toLocaleString ("en"));
 
          this .yLabels .children .push (transform);
       }
@@ -276,7 +276,7 @@ class AreaChart
 
       text .string    = new X3D .MFString (string);
       text .solid     = true;
-      text .fontStyle = axis === "x" ? this .xLabelsFontStyle : this .yLabelsFontStyle;
+      text .fontStyle = axis === "X" ? this .xLabelsFontStyle : this .yLabelsFontStyle;
 
       shape .appearance = this .labelsAppearance;
       shape .geometry   = text;
