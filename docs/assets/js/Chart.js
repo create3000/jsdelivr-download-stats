@@ -68,18 +68,19 @@ class AreaChart
       background .set_bind     = true;
       background .transparency = 1;
 
-      viewpoint .set_bind    = true;
-      viewpoint .position    = new X3D .SFVec3f (0, 0, 10);
-      viewpoint .fieldOfView = new X3D .SFVec4f (-0.15, -0.01, WIDTH, HEIGHT);
+      viewpoint .set_bind       = true;
+      viewpoint .position       = new X3D .SFVec3f (0, 0, 10);
+      viewpoint .fieldOfView    = new X3D .SFVec4f (-0.15, -0.01, WIDTH, HEIGHT);
+      viewpoint .navigationInfo = navigationInfo;
 
       this .viewpoint = viewpoint;
 
       fontLibrary .family = "Roboto";
-      fontLibrary .url    = ["assets/fonts/Roboto/Roboto.ttf"];
+      fontLibrary .url    = new X3D .MFString ("assets/fonts/Roboto/Roboto.ttf");
 
       // await fontLibrary .getValue () .requestImmediateLoad ();
 
-      this .scene .rootNodes .push (navigationInfo, background, viewpoint, fontLibrary);
+      this .scene .rootNodes .push (background, viewpoint, fontLibrary);
 
       // y-Axis
       {
@@ -100,12 +101,15 @@ class AreaChart
          shape .geometry      = geometry;
 
          this .scene .rootNodes .push (shape);
+
+         this .scene .addNamedNode ("yAxis", shape);
       }
 
       // Labels
       {
          const
-            xTransform = this .scene .createNode ("Group"),
+            xGroup     = this .scene .createNode ("Group"),
+            yTransform = this .scene .createNode ("Transform"),
             appearance = this .scene .createNode ("Appearance"),
             material   = this .scene .createNode ("UnlitMaterial"),
             xFontStyle = this .scene .createNode ("ScreenFontStyle"),
@@ -119,19 +123,17 @@ class AreaChart
          yFontStyle .justify   = new X3D .MFString ("END");
          appearance .material  = material;
 
-         this .scene .rootNodes .push (xTransform);
+         this .scene .rootNodes .push (xGroup, yTransform);
 
-         this .xLabels          = xTransform,
+         this .scene .addNamedNode ("xLabels", xGroup);
+         this .scene .addNamedNode ("yLabels", yTransform);
+
+         this .xLabels          = xGroup,
+         this .yLabels          = yTransform,
          this .labelsAppearance = appearance;
          this .xLabelsFontStyle = xFontStyle;
          this .yLabelsFontStyle = yFontStyle;
       }
-
-      // Group
-
-      this .group = this .scene .createNode ("Transform");
-
-      this .scene .rootNodes .push (this .group);
 
       // Geometry for GitHub and npm
       {
@@ -153,6 +155,12 @@ class AreaChart
          this .geometry  = geometry;
          this .color     = color;
          this .coord     = coord;
+
+         this .scene .rootNodes .push (transform);
+
+         this .scene .addNamedNode ("Chart", transform);
+
+         this .chart = transform;
       }
 
       // Stats
@@ -194,8 +202,8 @@ class AreaChart
 
       // Clear group.
 
-      this .group   .children = new X3D .MFNode (this .transform);
-      this .xLabels .children = new X3D .MFNode ();
+      this .xLabels .children .length = 0;
+      this .yLabels .children .length = 0;
 
       // Determine max.
 
@@ -248,12 +256,15 @@ class AreaChart
 
          const transform = this .createLabel ("y", -0.02, hits, hits .toLocaleString ("en"));
 
-         this .group .children .push (transform);
+         this .yLabels .children .push (transform);
       }
 
       // Scale all.
 
-      this .group .scale .y = 1 / this .max * HEIGHT;
+      const scale = 1 / this .max * HEIGHT;
+
+      this .yLabels .scale .y = scale;
+      this .chart   .scale .y = scale;
 
       return true;
    }
