@@ -93,6 +93,10 @@ header {
   border-bottom: 1px solid var(--border-color);
 }
 
+header p {
+  margin: 0.67em 0px;
+}
+
 main {
   display: none;
   padding: 1em 4em;
@@ -132,6 +136,7 @@ a:hover {
 }
 
 a.github {
+  margin-left: 10px;
   padding-left: 20px;
   background: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg") no-repeat left center;
   background-size: 20px;
