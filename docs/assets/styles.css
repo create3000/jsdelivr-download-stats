@@ -254,3 +254,15 @@ x3d-canvas {
   position: relative;
   top: 6px;
 }
+
+@media (width >= 900px) {
+  main {
+    padding: 1em 10em;
+  }
+}
+
+@media (width >= 1250px) {
+  main {
+    padding: 1em 16em;
+  }
+}
