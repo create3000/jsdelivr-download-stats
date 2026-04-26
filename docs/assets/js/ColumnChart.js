@@ -1,5 +1,5 @@
 import Chart from "./Chart.js";
-import X3D   from "https://cdn.jsdelivr.net/npm/x_ite@14.1.5/dist/x_ite.min.mjs";
+import X3D   from "https://cdn.jsdelivr.net/npm/x_ite@14.2.0/dist/x_ite.min.mjs";
 import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.module.min.js";
 
 import { WIDTH, HEIGHT, GAP } from "./Config.js";

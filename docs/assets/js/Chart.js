@@ -1,4 +1,4 @@
-import X3D   from "https://cdn.jsdelivr.net/npm/x_ite@14.1.5/dist/x_ite.min.mjs";
+import X3D   from "https://cdn.jsdelivr.net/npm/x_ite@14.2.0/dist/x_ite.min.mjs";
 import { $ } from "https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist-module/jquery.module.min.js";
 
 import { WIDTH, HEIGHT } from "./Config.js";
@@ -51,11 +51,8 @@ class AreaChart
 
       // Colors
 
-      this .githubColor = new X3D .SFColor ( 47 / 255, 129 / 255, 247 / 255); // rgb(47, 129, 247)
-      this .npmColor    = new X3D .SFColor (203 / 255,  56 / 255,  55 / 255); // rgb(203, 56, 55)
-
-      // this .githubColor = SFColor .fromString (/* css */ `rgb(47, 129, 247)`);
-      // this .npmColor    = SFColor .fromString (/* css */ `rgb(203, 56, 55)`);
+      this .githubColor = X3D .SFColor .fromString (/* css */ `rgb(47, 129, 247)`);
+      this .npmColor    = X3D .SFColor .fromString (/* css */ `rgb(203, 56, 55)`);
 
       // Environment
 
