@@ -222,7 +222,9 @@ class AreaChart
 
       // Add x labels.
 
-      let xLabel = "";
+      let
+         xLabel = "",
+         iLabel = 0;
 
       for (const [i, [date, hosts]] of entries .entries ())
       {
@@ -231,9 +233,15 @@ class AreaChart
          if (xLabel === label)
             continue;
 
-         xLabel = label;
+         const x = i * (width + gap);
 
-         const transform = this .createLabel ("X", i * (width + gap), -0.005, label);
+         if (iLabel === 1 && x < 0.04)
+            this .xLabels .children .length = 0;
+
+         xLabel  = label;
+         iLabel += 1;
+
+         const transform = this .createLabel ("X", x, -0.005, label);
 
          this .xLabels .children .push (transform);
       }
