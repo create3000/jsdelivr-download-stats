@@ -13,7 +13,7 @@ class AreaChart extends Chart
 
    async setup ()
    {
-      super .setup ();
+      await super .setup ();
 
       $("#smoothing-range") .on ("change", () => this .build (this .entries));
    }
@@ -28,7 +28,7 @@ class AreaChart extends Chart
 
       // Add labels.
 
-      if (!super .build (entries, width, 0))
+      if (!await super .build (entries, width, 0))
          return;
 
       // Add columns.

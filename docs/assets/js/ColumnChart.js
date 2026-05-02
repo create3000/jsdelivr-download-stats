@@ -22,7 +22,7 @@ class ColumnChart extends Chart
 
       // Add labels.
 
-      if (!super .build (entries, width, gap))
+      if (!await super .build (entries, width, gap))
          return;
 
       // Add columns.
