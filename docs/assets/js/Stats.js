@@ -59,6 +59,8 @@ class Stats
          yearSmoothyRange: 30,
       });
 
+      $("#repo") .text (`${this .username}/${this .repository}`);
+
       $("#period")
          .val (this .config .period)
          .on ("change", () => this .config .period = $("#period") .val ());
