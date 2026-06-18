@@ -48,7 +48,7 @@ class Stats
 
       // Configuration
 
-      this .config = new DataStorage (localStorage, "jsDeliverStats.");
+      this .config = new DataStorage (localStorage, `jsDeliverStats.${this .username}.${this .repository}.`);
 
       this .config .setDefaultValues ({
          period: "quarter",
