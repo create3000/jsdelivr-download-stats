@@ -75,7 +75,7 @@ const handler =
 
       return Object .getOwnPropertyDescriptor (storage, namespace + key);
    },
-}
+};
 
 export default class DataStorage
 {
